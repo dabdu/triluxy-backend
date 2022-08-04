@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, phoneNumber } = req.body;
+  const { name, email, password, phoneNumber, userRole, userStatus } = req.body;
 
   if (!name || !email || !password || !phoneNumber) {
     res.status(400);
@@ -23,8 +23,8 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     phoneNumber,
-    userRole: "hotelAdmin",
-    activated: "newHotelAdmin",
+    userRole,
+    userStatus,
     password: hashedpassword,
   });
   if (user) {

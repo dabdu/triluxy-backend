@@ -15,12 +15,12 @@ const createHotel = asyncHandler(async (req, res) => {
     town,
     lat,
     lng,
-    desciption,
+    description,
     facilities,
     terms,
   } = req.body;
 
-  if (!hotelName || !fImg || !town || !state || !desciption || !facilities) {
+  if (!hotelName || !fImg || !town || !state || !description || !facilities) {
     res.status(400);
     throw new Error("All Fields Must be fill");
   }
@@ -39,7 +39,7 @@ const createHotel = asyncHandler(async (req, res) => {
     town,
     lat,
     lng,
-    desciption,
+    description,
     facilities,
     terms,
   });

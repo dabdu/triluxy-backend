@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "Name Field is Required"],
+      required: [true, "Email Field is Required"],
       unique: true,
     },
     phoneNumber: {
@@ -18,17 +18,15 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Name Field is Required"],
+      required: [true, "Password Field is Required"],
     },
     userRole: {
       type: String,
-      default: "user",
-      required: true,
+      required: [true, "User Role Field is Required"],
     },
     userStatus: {
       type: String,
-      default: "active",
-      required: true,
+      required: [true, "User Status Field is Required"],
     },
   },
   { timestamps: true }

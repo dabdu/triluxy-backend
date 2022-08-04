@@ -5,7 +5,14 @@ const User = require("../models/userModel");
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, phoneNumber, userRole, userStatus } = req.body;
 
-  if (!name || !email || !password || !phoneNumber) {
+  if (
+    !name ||
+    !email ||
+    !password ||
+    !phoneNumber ||
+    !userRole ||
+    !userStatus
+  ) {
     res.status(400);
     throw new Error("All Fields Must be fill");
   }

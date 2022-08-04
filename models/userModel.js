@@ -25,9 +25,9 @@ const userSchema = mongoose.Schema(
       default: "user",
       required: true,
     },
-    activated: {
+    userStatus: {
       type: String,
-      default: "verified",
+      default: "active",
       required: true,
     },
   },

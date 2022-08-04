@@ -23,6 +23,8 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     phoneNumber,
+    userRole: "hotelAdmin",
+    activated: "newHotelAdmin",
     password: hashedpassword,
   });
   if (user) {
@@ -30,7 +32,9 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
-      phoneNumber,
+      phoneNumber: user.phoneNumber,
+      userRole: user.userRole,
+      userStatus: user.userStatus,
       token: generateToken(user._id),
     });
   } else {

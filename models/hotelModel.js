@@ -40,7 +40,6 @@ const hotelSchema = mongoose.Schema(
     description: {
       type: String,
       required: [true, "About the Hotel is Required"],
-      unique: true,
     },
     facilities: {
       type: [String],

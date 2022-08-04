@@ -43,6 +43,15 @@ const createHotel = asyncHandler(async (req, res) => {
     facilities,
     terms,
   });
+  if (hotel) {
+    await User.findByIdAndUpdate(
+      req.user.id,
+      { userStatus: "activeHotelAdmin" },
+      {
+        new: true,
+      }
+    );
+  }
   res.status(200).json(hotel);
 });
 // const updateGoal = asyncHandler(async (req, res) => {

@@ -7,12 +7,14 @@ const port = process.env.PORT;
 
 connectDB();
 const app = express();
+
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/user", require("./routes/userRoutes"));
 app.use("/api/hotel", require("./routes/hotelRoutes"));
+app.use("/api/category", require("./routes/categoryRoutes"));
 
 app.use(errorHandler);
 app.listen(port, () => console.log(`Server started on port ${port}`));

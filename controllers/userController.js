@@ -33,6 +33,8 @@ const registerUser = asyncHandler(async (req, res) => {
     userRole,
     userStatus,
     password: hashedpassword,
+    profileImg:
+      "https://stockphoto.com/samples/OTM0ODMxNjUwMDAxMWY1YmNmYjBlZA==/MjIxMWY1YmNmYjBlZA==/male-profile-icon-white-on-the-blue-background.jpg",
   });
   if (user) {
     res.status(201).json({

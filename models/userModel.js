@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema(
       required: [true, "Phone Number Field is Required"],
       unique: true,
     },
+    profileImg: {
+      type: String,
+      required: [true, "Profile Picture is Required"],
+    },
     password: {
       type: String,
       required: [true, "Password Field is Required"],

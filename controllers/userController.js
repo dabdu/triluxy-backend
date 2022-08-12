@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
+const UserOtherInfo = require("../models/userOtherInfo");
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, phoneNumber, userRole, userStatus } = req.body;
 
@@ -52,6 +53,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User Couldn't be created");
   }
 });
+
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -72,6 +74,38 @@ const loginUser = asyncHandler(async (req, res) => {
   } else {
     res.status(400);
     throw new Error("Invalid Email or Password");
+  }
+});
+
+const createUserOtherInfo = asyncHandler(async (req, res) => {
+  const { gender, address, state, town, zipCode } = req.body;
+
+  if (!gender || !address || !state || !town || !zipCode) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const userInfoExist = await UserOtherInfo.findOne({ user: req.user.id });
+  if (userInfoExist) {
+    res.status(400);
+    throw new Error("User Info Already Exist");
+  }
+
+  // Create User
+  const userInfo = await UserOtherInfo.create({
+    user: req.user.id,
+    gender,
+    address,
+    state,
+    town,
+    zipCode,
+  });
+  if (userInfo) {
+    res.status(201).json({
+      message: "User's Information Added Successfully",
+    });
+  } else {
+    res.status(400);
+    throw new Error("User Info Couldn't be added");
   }
 });
 const getMe = asyncHandler(async (req, res) => {
@@ -95,4 +129,5 @@ module.exports = {
   registerUser,
   loginUser,
   getMe,
+  createUserOtherInfo,
 };

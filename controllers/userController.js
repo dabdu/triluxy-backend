@@ -90,7 +90,7 @@ const createUserOtherInfo = asyncHandler(async (req, res) => {
     throw new Error("User Info Already Exist");
   }
 
-  // Create User
+  // Create User Info
   const userInfo = await UserOtherInfo.create({
     user: req.user.id,
     gender,
@@ -100,13 +100,15 @@ const createUserOtherInfo = asyncHandler(async (req, res) => {
     zipCode,
   });
   if (userInfo) {
-    res.status(201).json({
-      message: "User's Information Added Successfully",
-    });
+    res.status(201).send("User Information added Successfully");
   } else {
     res.status(400);
     throw new Error("User Info Couldn't be added");
   }
+});
+const getOtherInfo = asyncHandler(async (req, res) => {
+  const userInfo = await UserOtherInfo.findOne({ user: req.user.id });
+  res.status(200).json(userInfo);
 });
 const getMe = asyncHandler(async (req, res) => {
   const { _id, name, email } = await User.findById(req.user.id);
@@ -130,4 +132,5 @@ module.exports = {
   loginUser,
   getMe,
   createUserOtherInfo,
+  getOtherInfo,
 };

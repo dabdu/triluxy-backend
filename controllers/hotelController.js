@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Hotel = require("../models/hotelModel");
+const Reservation = require("../models/reservationModel");
 const getHotel = asyncHandler(async (req, res) => {
   const hotel = await Hotel.find({ user: req.user.id });
   res.status(200).json(hotel);
@@ -56,33 +57,57 @@ const createHotel = asyncHandler(async (req, res) => {
       }
     );
   }
-  res.status(200).json(hotel);
+  res.status(201).json(hotel);
 });
-// const updateGoal = asyncHandler(async (req, res) => {
-//   const goal = await Goal.findById(req.params.id);
-//   if (!goal) {
-//     res.status(400);
-//     throw new Error("Goal Not Found");
-//   }
-//   if (!req.user) {
-//     res.status(401);
-//     throw new Error("User Not Found now");
-//   }
+const getUserReservations = asyncHandler(async (req, res) => {
+  const reservations = await Reservation.find({ user: req.user.id });
+  res.status(200).json(reservations);
+});
+const addNewReservation = asyncHandler(async (req, res) => {
+  const {
+    hotelId,
+    categoryId,
+    transId,
+    nights,
+    amount,
+    checkInDate,
+    checkOutDate,
+    isPaid,
+    status,
+  } = req.body;
 
-//   // Make Sure the Logged inUser matches the Goal User
-//   if (goal.user.toString() !== req.user.id) {
-//     res.status(401);
-//     throw new Error("User Not Authorized");
-//   }
-
-//   const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
-//     new: true,
-//   });
-//   res.status(200).json(updatedGoal);
-// });
+  if (
+    !hotelId ||
+    !categoryId ||
+    !transId ||
+    !nights ||
+    !checkInDate ||
+    !checkOutDate ||
+    !isPaid ||
+    !status
+  ) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const reservation = await Reservation.create({
+    userId: req.user.id,
+    hotelId,
+    categoryId,
+    transId,
+    nights,
+    amount,
+    checkInDate,
+    checkOutDate,
+    isPaid,
+    status,
+  });
+  res.status(201).json(reservation);
+});
 
 module.exports = {
   getHotel,
   createHotel,
   getAllHotels,
+  getUserReservations,
+  addNewReservation,
 };

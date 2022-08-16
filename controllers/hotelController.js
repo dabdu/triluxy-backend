@@ -83,7 +83,6 @@ const addNewReservation = asyncHandler(async (req, res) => {
     !nights ||
     !checkInDate ||
     !checkOutDate ||
-    !isPaid ||
     !status
   ) {
     res.status(400);

@@ -101,7 +101,7 @@ const addNewReservation = asyncHandler(async (req, res) => {
     isPaid,
     status,
   });
-  if (reservation) res.status(201).json(reservation);
+  res.status(201).json(reservation);
 });
 
 module.exports = {

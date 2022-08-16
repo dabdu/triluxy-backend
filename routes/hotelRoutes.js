@@ -7,9 +7,11 @@ const {
   addNewReservation,
 } = require("../controllers/hotelController");
 const { protect } = require("../middleware/authMiddleware");
+const { mailFunction } = require("../middleware/mailSender");
 const router = express.Router();
 
 router.route("/").get(protect, getHotel).post(protect, createHotel);
+router.route("/mail").get(mailFunction);
 router
   .route("/reservations")
   .get(protect, getUserReservations)

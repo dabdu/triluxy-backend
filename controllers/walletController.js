@@ -17,7 +17,7 @@ const createNewTransaction = asyncHandler(async (req, res) => {
     amount,
     transType,
   });
-  res.status(200).json(transaction);
+  res.status(201).json(transaction);
 });
 
 module.exports = {

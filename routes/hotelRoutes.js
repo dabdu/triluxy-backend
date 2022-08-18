@@ -5,6 +5,7 @@ const {
   getAllHotels,
   getUserReservations,
   addNewReservation,
+  adminAddHotel,
 } = require("../controllers/hotelController");
 const { protect } = require("../middleware/authMiddleware");
 const { mailFunction } = require("../middleware/mailSender");
@@ -17,6 +18,7 @@ router
   .get(protect, getUserReservations)
   .post(protect, addNewReservation);
 router.route("/allhotels").get(getAllHotels);
+router.route("/admin/add-hotel").post(protect, adminAddHotel);
 // router.route("/:id").put(protect, updateGoal).delete(protect, deleteGoal);
 
 module.exports = router;

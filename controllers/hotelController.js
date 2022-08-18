@@ -59,6 +59,41 @@ const createHotel = asyncHandler(async (req, res) => {
   }
   res.status(201).json(hotel);
 });
+const adminAddHotel = asyncHandler(async (req, res) => {
+  const {
+    hotelName,
+    fImg,
+    images,
+    address,
+    state,
+    town,
+    lat,
+    lng,
+    description,
+    facilities,
+    terms,
+  } = req.body;
+
+  if (!hotelName || !fImg || !town || !state || !description || !facilities) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const hotel = await Hotel.create({
+    user: req.user.id,
+    hotelName,
+    fImg,
+    images,
+    address,
+    state,
+    town,
+    lat,
+    lng,
+    description,
+    facilities,
+    terms,
+  });
+  res.status(201).json(hotel);
+});
 const getUserReservations = asyncHandler(async (req, res) => {
   const reservations = await Reservation.find({ user: req.user.id });
   res.status(200).json(reservations);
@@ -106,6 +141,7 @@ const addNewReservation = asyncHandler(async (req, res) => {
 module.exports = {
   getHotel,
   createHotel,
+  adminAddHotel,
   getAllHotels,
   getUserReservations,
   addNewReservation,

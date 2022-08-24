@@ -25,7 +25,7 @@ const createCategory = asyncHandler(async (req, res) => {
     features,
     description,
   });
-  res.status(200).json(category);
+  res.status(201).json(category);
 });
 module.exports = {
   getCategories,

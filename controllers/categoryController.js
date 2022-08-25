@@ -33,6 +33,11 @@ const getCatRooms = asyncHandler(async (req, res) => {
   const rooms = await Room.find({ categoryId: req.params.id });
   res.status(200).json(rooms);
 });
+// Get Single Category By ID
+const getCatById = asyncHandler(async (req, res) => {
+  const category = await Category.findOne({_id:req.params.id});
+  res.status(200).json(category);
+});
 const  createRoom = asyncHandler(async (req, res) => {
   const { categoryName, roomName, status, hotelId, categoryId} =
     req.body;
@@ -53,8 +58,9 @@ const  createRoom = asyncHandler(async (req, res) => {
 
 module.exports = {
   getCategories,
-   createRoom,
-   getCatRooms,
+  createRoom,
+  getCatRooms,
   createCategory,
   getAllCategories,
+  getCatById
 };

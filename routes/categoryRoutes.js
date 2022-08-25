@@ -14,7 +14,7 @@ router.route("/").get(protect, getCategories).post(protect, createCategory);
 router.route("/allcategories/:id").get(getAllCategories);
 router.route("/add-room").post(protect, createRoom);
 router.route("/:id/rooms").get(protect, getCatRooms)
-router.route("/room/:id").get(protect, getCatById);
+router.route("/:id").get(protect, getCatById);
 // router.route("/:id").put(protect, updateGoal).delete(protect, deleteGoal);
 
 module.exports = router;

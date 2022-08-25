@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Category = require("../models/categoryModel");
+const Room = require("../models/roomModel")
 const getCategories = asyncHandler(async (req, res) => {
   const hotels = await Category.find({ hotel: req.body.hotel_id });
   res.status(200).json(hotels);
@@ -27,8 +28,33 @@ const createCategory = asyncHandler(async (req, res) => {
   });
   res.status(201).json(category);
 });
+// Get Category Rooms
+const getCatRooms = asyncHandler(async (req, res) => {
+  const rooms = await Category.find({ categoryId: req.params.id });
+  res.status(200).json(rooms);
+});
+const  createRoom = asyncHandler(async (req, res) => {
+  const { categoryName, roomName, status, hotelId, categoryId} =
+    req.body;
+
+  if (!categoryName || !roomName || !status || !hotelId || !categoryId) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const room = await Room.create({
+    hotelId,
+    categoryId,
+    categoryName,
+    roomName,
+    status,
+  });
+  res.status(201).json(room);
+});
+
 module.exports = {
   getCategories,
+   createRoom,
+   getCatRooms,
   createCategory,
   getAllCategories,
 };

@@ -7,7 +7,7 @@ const roomSchema = mongoose.Schema(
       required: true,
       ref: "Hotel",
     },
-    catergoryId: {
+    categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Category",
@@ -21,7 +21,7 @@ const roomSchema = mongoose.Schema(
       required: [true, "Category Name Field is Required"],
     },
     status: {
-      type: [String],
+      type: String,
       enum: ["Available", "Occupied", "Unavailable"],
     }
   },

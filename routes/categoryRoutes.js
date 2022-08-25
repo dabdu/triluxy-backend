@@ -11,7 +11,8 @@ const router = express.Router();
 
 router.route("/").get(protect, getCategories).post(protect, createCategory);
 router.route("/allcategories/:id").get(getAllCategories);
-router.route("/:id/rooms").get(protect, getCatRooms).post(protect, createRoom);
+router.route("/add-room").post(protect, createRoom);
+router.route("/:id/rooms").get(protect, getCatRooms)
 // router.route("/:id").put(protect, updateGoal).delete(protect, deleteGoal);
 
 module.exports = router;

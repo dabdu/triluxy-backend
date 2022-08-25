@@ -30,7 +30,7 @@ const createCategory = asyncHandler(async (req, res) => {
 });
 // Get Category Rooms
 const getCatRooms = asyncHandler(async (req, res) => {
-  const rooms = await Category.find({ categoryId: req.params.id });
+  const rooms = await Room.find({ categoryId: req.params.id });
   res.status(200).json(rooms);
 });
 const  createRoom = asyncHandler(async (req, res) => {

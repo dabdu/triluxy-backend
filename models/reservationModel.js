@@ -45,6 +45,9 @@ const reservationSchema = mongoose.Schema(
       type: String,
       enum: ["BOOKED", "CONFIRMED", "CHECKEDIN", "CHECKEDOUT", "CANCEL"],
     },
+    assignedRoom:{
+      type: String
+    }
   },
   { timestamps: true }
 );

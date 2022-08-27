@@ -102,6 +102,26 @@ const getAllReservations = asyncHandler(async (req, res) => {
   const reservations = await Reservation.find();
   res.status(200).json(reservations);
 });
+const getBookedReservations = asyncHandler(async (req, res) => {
+  const reservations = await Reservation.find({ status: "BOOKED" });
+  res.status(200).json(reservations);
+});
+const getConfirmedReservations = asyncHandler(async (req, res) => {
+  const reservations = await Reservation.find({ status: "CONFIRMED" });
+  res.status(200).json(reservations);
+});
+const getCheckedInReservations = asyncHandler(async (req, res) => {
+  const reservations = await Reservation.find({ status: "CHECKEDIN" });
+  res.status(200).json(reservations);
+});
+const getCheckOutReservations = asyncHandler(async (req, res) => {
+  const reservations = await Reservation.find({ status: "CHECKEDOUT" });
+  res.status(200).json(reservations);
+});
+const getCancelReservations = asyncHandler(async (req, res) => {
+  const reservations = await Reservation.find({ status: "CANCEL" });
+  res.status(200).json(reservations);
+});
 const addNewReservation = asyncHandler(async (req, res) => {
   const {
     hotelId,
@@ -138,7 +158,7 @@ const addNewReservation = asyncHandler(async (req, res) => {
     checkOutDate,
     isPaid,
     status,
-    assignedRoom: ""
+    assignedRoom: "",
   });
   res.status(201).json(reservation);
 });
@@ -150,5 +170,10 @@ module.exports = {
   getAllHotels,
   getUserReservations,
   addNewReservation,
-  getAllReservations
+  getAllReservations,
+  getBookedReservations,
+  getConfirmedReservations,
+  getCheckedInReservations,
+  getCheckOutReservations,
+  getCancelReservations,
 };

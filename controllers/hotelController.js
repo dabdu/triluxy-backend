@@ -98,6 +98,10 @@ const getUserReservations = asyncHandler(async (req, res) => {
   const reservations = await Reservation.find({ user: req.user.id });
   res.status(200).json(reservations);
 });
+const getAllReservations = asyncHandler(async (req, res) => {
+  const reservations = await Reservation.find();
+  res.status(200).json(reservations);
+});
 const addNewReservation = asyncHandler(async (req, res) => {
   const {
     hotelId,
@@ -145,4 +149,5 @@ module.exports = {
   getAllHotels,
   getUserReservations,
   addNewReservation,
+  getAllReservations
 };

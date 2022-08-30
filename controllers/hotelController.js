@@ -159,7 +159,7 @@ const addNewReservation = asyncHandler(async (req, res) => {
     checkOutDate,
     isPaid,
     status,
-    assignedRoom: "",
+    assignedRoomId: null,
   });
   res.status(201).json(reservation);
 });

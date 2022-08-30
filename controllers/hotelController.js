@@ -164,22 +164,24 @@ const addNewReservation = asyncHandler(async (req, res) => {
   res.status(201).json(reservation);
 });
 const confirmBooking = asyncHandler(async (req, res) => {
-  const confimed = await Reservation.findByIdAndUpdate(
+  const confirmed = await Reservation.findByIdAndUpdate(
     req.body.reserveId,
-    { status: "CONFIRMED", assignedRoom: req.body.assignedRoom },
+    { status: "CONFIRMED", assignedRoomId: req.body.roomId },
     {
       new: true,
     }
   );
-  if (confimed) {
-    await Room.findByIdAndUpdate(
+  if (confirmed) {
+    const changeStatus = await Room.findByIdAndUpdate(
       req.body.roomId,
       { status: "Occupied" },
       {
         new: true,
       }
     );
-    res.status(201).json("Confirmation Successully");
+    if (changeStatus) {
+      res.status(201).json("Confirmation Successully");
+    }
   }
 });
 

@@ -14,6 +14,7 @@ const {
   getCancelReservations,
   confirmBooking,
   setCheckedInReservations,
+  setCheckedOutReservations,
 } = require("../controllers/hotelController");
 const { protect } = require("../middleware/authMiddleware");
 const { mailFunction } = require("../middleware/mailSender");
@@ -38,6 +39,9 @@ router
   .route("/bookings/check-in")
   .get(protect, getCheckedInReservations)
   .post(protect, setCheckedInReservations);
-router.route("/bookings/check-out").get(protect, getCheckOutReservations);
+router
+  .route("/bookings/check-out")
+  .get(protect, getCheckOutReservations)
+  .post(protect, setCheckedOutReservations);
 router.route("/bookings/cancel").get(protect, getCancelReservations);
 module.exports = router;

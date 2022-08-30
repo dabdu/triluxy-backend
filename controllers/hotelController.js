@@ -129,6 +129,27 @@ const getCheckOutReservations = asyncHandler(async (req, res) => {
   const reservations = await Reservation.find({ status: "CHECKEDOUT" });
   res.status(200).json(reservations);
 });
+const setCheckedOutReservations = asyncHandler(async (req, res) => {
+  const confirmed = await Reservation.findByIdAndUpdate(
+    req.body.reserveId,
+    { status: "CHECKEDOUT" },
+    {
+      new: true,
+    }
+  );
+  if (confirmed) {
+    const changeStatus = await Room.findByIdAndUpdate(
+      req.body.assignedRoomId,
+      { status: "Available" },
+      {
+        new: true,
+      }
+    );
+    if (changeStatus) {
+      res.status(201).json("Checkout Successfully");
+    }
+  }
+});
 const getCancelReservations = asyncHandler(async (req, res) => {
   const reservations = await Reservation.find({ status: "CANCEL" });
   res.status(200).json(reservations);
@@ -210,4 +231,5 @@ module.exports = {
   getCancelReservations,
   confirmBooking,
   setCheckedInReservations,
+  setCheckedOutReservations,
 };

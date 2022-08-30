@@ -96,7 +96,7 @@ const adminAddHotel = asyncHandler(async (req, res) => {
   res.status(201).json(hotel);
 });
 const getUserReservations = asyncHandler(async (req, res) => {
-  const reservations = await Reservation.find({ user: req.user.id });
+  const reservations = await Reservation.find({ userId: req.params.id });
   res.status(200).json(reservations);
 });
 const getAllReservations = asyncHandler(async (req, res) => {

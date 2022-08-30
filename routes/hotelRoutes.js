@@ -25,10 +25,7 @@ router.route("/admin/add-hotel").post(protect, adminAddHotel);
 // router.route("/:id").put(protect, updateGoal).delete(protect, deleteGoal);
 
 // ALl Hotel Reveration Routes
-router
-  .route("/reservations")
-  .get(protect, getUserReservations)
-  .post(protect, addNewReservation);
+router.route("/reservations").post(protect, addNewReservation);
 router.route("/all-reservations").get(protect, getAllReservations);
 router.route("/bookings").get(protect, getBookedReservations);
 router

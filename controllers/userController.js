@@ -119,7 +119,11 @@ const getMe = asyncHandler(async (req, res) => {
   });
   res.send("meUser");
 });
-
+// Get User Info
+const getUserInfo = asyncHandler(async (req, res) => {
+  const userInfo = await UserOtherInfo.findOne(req.params.id);
+  res.status(200).json(userInfo);
+});
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -133,4 +137,5 @@ module.exports = {
   getMe,
   createUserOtherInfo,
   getOtherInfo,
+  getUserInfo,
 };

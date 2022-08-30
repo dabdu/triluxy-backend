@@ -121,7 +121,7 @@ const getMe = asyncHandler(async (req, res) => {
 });
 // Get User Info
 const getUserInfo = asyncHandler(async (req, res) => {
-  const userInfo = await UserOtherInfo.findOne({ _id: req.params.id });
+  const userInfo = await User.findById(req.params.id);
   res.status(200).json(userInfo);
 });
 // Generate JWT

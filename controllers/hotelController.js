@@ -162,6 +162,16 @@ const addNewReservation = asyncHandler(async (req, res) => {
   });
   res.status(201).json(reservation);
 });
+const confirmBooking = asyncHandler(async (req, res) => {
+  await Reservation.findByIdAndUpdate(
+    req.body.reserveId,
+    { status: "CONFIRMED", assignedRoom: req.body.assignedRoom },
+    {
+      new: true,
+    }
+  );
+  res.status(201).json("Confirmation Successully");
+});
 
 module.exports = {
   getHotel,
@@ -176,4 +186,5 @@ module.exports = {
   getCheckedInReservations,
   getCheckOutReservations,
   getCancelReservations,
+  confirmBooking,
 };

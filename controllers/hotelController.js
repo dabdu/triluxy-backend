@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Hotel = require("../models/hotelModel");
 const Reservation = require("../models/reservationModel");
+const Room = require("../models/roomModel");
 const getHotel = asyncHandler(async (req, res) => {
   const hotel = await Hotel.find({ user: req.user.id });
   res.status(200).json(hotel);
@@ -163,14 +164,23 @@ const addNewReservation = asyncHandler(async (req, res) => {
   res.status(201).json(reservation);
 });
 const confirmBooking = asyncHandler(async (req, res) => {
-  await Reservation.findByIdAndUpdate(
+  const confimed = await Reservation.findByIdAndUpdate(
     req.body.reserveId,
     { status: "CONFIRMED", assignedRoom: req.body.assignedRoom },
     {
       new: true,
     }
   );
-  res.status(201).json("Confirmation Successully");
+  if (confimed) {
+    await Room.findByIdAndUpdate(
+      req.body.roomId,
+      { status: "Occupied" },
+      {
+        new: true,
+      }
+    );
+    res.status(201).json("Confirmation Successully");
+  }
 });
 
 module.exports = {

@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Restaurant = require("../models/restaurantModel");
 
-const adminAddrestaurant = expressAsyncHandler(async (req, res) => {
+const adminAddrestaurant = asyncHandler(async (req, res) => {
   const {
     restaurantName,
     fImg,

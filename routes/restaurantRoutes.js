@@ -7,7 +7,7 @@ const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 router
-  .route("/admin/restaurant")
+  .route("/admin")
   .get(protect, adminGetAllRestaurants)
   .post(protect, adminAddrestaurant);
 

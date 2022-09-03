@@ -30,6 +30,14 @@ const restaurantSchema = mongoose.Schema(
       type: String,
       required: [true, "Town Field is Required"],
     },
+    openDaysStart: {
+      type: String,
+      required: [true, "Open Days Field is Required"],
+    },
+    openDaysEnd: {
+      type: String,
+      required: [true, "Open Days Field is Required"],
+    },
     lat: {
       type: String,
     },

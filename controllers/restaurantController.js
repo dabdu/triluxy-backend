@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const Restaurant = require("../models/resReservationModel");
 const ResReservation = require("../models/resReservationModel");
 const adminAddrestaurant = asyncHandler(async (req, res) => {
   const {

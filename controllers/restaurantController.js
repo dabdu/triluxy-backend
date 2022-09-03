@@ -89,9 +89,14 @@ const getUserReservations = asyncHandler(async (req, res) => {
   const reservations = await ResReservation.find({ userId: req.params.id });
   res.status(200).json(reservations);
 });
+const adminGetAllReservations = asyncHandler(async (req, res) => {
+  const reservations = await ResReservation.find();
+  res.status(200).json(reservations);
+});
 module.exports = {
   adminAddrestaurant,
   adminGetAllRestaurants,
+  adminGetAllReservations,
   addNewReservation,
   getUserReservations,
 };

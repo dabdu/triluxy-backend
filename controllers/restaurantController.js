@@ -79,7 +79,6 @@ const addNewReservation = asyncHandler(async (req, res) => {
     restaurantId,
     transId,
     reservePersons,
-    amount,
     checkInDate,
     checkInTime,
     status,

@@ -15,6 +15,6 @@ router
   .post(protect, adminAddrestaurant);
 
 router.route("/admin/reservations").get(protect, adminGetAllReservations);
-router.route("/reservations").get(protect, getUserReservations);
-router.route("/reservations/:id").post(protect, addNewReservation);
+router.route("/reservations/:id").get(protect, getUserReservations);
+router.route("/reservations").post(protect, addNewReservation);
 module.exports = router;

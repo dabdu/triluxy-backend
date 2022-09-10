@@ -24,6 +24,7 @@ app.use("/api/hotel", require("./routes/hotelRoutes"));
 app.use("/api/category", require("./routes/categoryRoutes"));
 app.use("/api/restaurant", require("./routes/restaurantRoutes"));
 app.use("/api/wallet", require("./routes/walletRoutes"));
+app.use("/api/taxi", require("./routes/taxiRoutes"));
 
 app.use(errorHandler);
 app.listen(port, () => console.log(`Server started on port ${port}`));

@@ -7,10 +7,10 @@ const taxiBookingnSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
-    carId: {
+    categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "TaxiCar",
+      ref: "TaxiRide",
     },
     transactionId: {
       type: String,
@@ -64,7 +64,7 @@ const taxiBookingnSchema = mongoose.Schema(
       type: String,
       enum: ["BOOKED", "CONFIRMED", "CHECKEDIN", "CHECKEDOUT", "CANCEL"],
     },
-    assignedDriverId: {
+    assignedCarId: {
       type: String,
     },
   },

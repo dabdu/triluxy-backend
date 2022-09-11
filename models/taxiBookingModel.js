@@ -8,8 +8,9 @@ const taxiBookingnSchema = mongoose.Schema(
       ref: "User",
     },
     carId: {
-      type: String,
-      required: [true, "Transaction Id is Field is Required"],
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "TaxiCar",
     },
     transactionId: {
       type: String,

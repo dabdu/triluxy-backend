@@ -11,6 +11,6 @@ const router = express.Router();
 router.route("/booking").post(protect, addBooking);
 router.route("/bookings/:id").get(protect, getUserTaxiBookings);
 router.route("/admin/bookings").get(protect, adminGetAllTaxiBookings);
-router.route("/admin/add-taxi-car").get(protect, addTaxiCar);
+router.route("/admin/add-taxi-car").post(protect, addTaxiCar);
 
 module.exports = router;

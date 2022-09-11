@@ -2,11 +2,7 @@ const mongoose = require("mongoose");
 
 const taxiCarSchema = mongoose.Schema(
   {
-    carName: {
-      type: String,
-      required: true,
-    },
-    category: {
+    categoryName: {
       type: String,
       required: true,
     },
@@ -14,16 +10,13 @@ const taxiCarSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    carImg: {
+    catImg: {
       type: String,
       required: true,
     },
     status: {
       type: String,
       enum: ["ACTIVE", "INACTIVE", "SUSPENDED"],
-    },
-    DriverId: {
-      type: String,
     },
   },
   { timestamps: true }

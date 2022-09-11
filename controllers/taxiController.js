@@ -1,20 +1,25 @@
 const asyncHandler = require("express-async-handler");
 const TaxiBooking = require("../models/taxiBookingModel");
 const TaxiCar = require("../models/taxiCarModel");
-const addTaxiCar = asyncHandler(async (req, res) => {
+const TaxiRide = require("../models/taxiRides");
+const addTaxiRides = asyncHandler(async (req, res) => {
   const { categoryName, multiplier, catImg } = req.body;
 
   if (!categoryName || !catImg || !multiplier) {
     res.status(400);
     throw new Error("All Fields Must be fill");
   }
-  const car = await TaxiCar.create({
+  const ride = await TaxiRide.create({
     categoryName,
     multiplier,
     catImg,
     status: "ACTIVE",
   });
-  res.status(201).json(car);
+  res.status(201).json(ride);
+});
+const getTaxiRides = asyncHandler(async (req, res) => {
+  const rides = await TaxiRide.find();
+  res.status(200).json(rides);
 });
 const addBooking = asyncHandler(async (req, res) => {
   const {
@@ -85,5 +90,6 @@ module.exports = {
   addBooking,
   getUserTaxiBookings,
   adminGetAllTaxiBookings,
-  addTaxiCar,
+  addTaxiRides,
+  getTaxiRides,
 };

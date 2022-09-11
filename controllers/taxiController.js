@@ -1,14 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const TaxiBooking = require("../models/taxiBookingModel");
 const addTaxiCar = asyncHandler(async (req, res) => {
-  const { category, multipier, catImg } = req.body;
+  const { categoryName, multipier, catImg } = req.body;
 
-  if (!category || !catImg || !multipier) {
+  if (!categoryName || !catImg || !multipier) {
     res.status(400);
     throw new Error("All Fields Must be fill");
   }
   const car = await TaxiCar.create({
-    category,
+    categoryName,
     multipier,
     catImg,
     status: "ACTIVE",

@@ -20,6 +20,7 @@ const addTaxiCar = asyncHandler(async (req, res) => {
 });
 const addBooking = asyncHandler(async (req, res) => {
   const {
+    userId,
     carId,
     transactionId,
     transactionRef,
@@ -36,6 +37,7 @@ const addBooking = asyncHandler(async (req, res) => {
   } = req.body;
 
   if (
+    !userId ||
     !carId ||
     !transactionId ||
     !transactionRef ||
@@ -54,7 +56,7 @@ const addBooking = asyncHandler(async (req, res) => {
     throw new Error("All Fields Must be fill");
   }
   const book = await TaxiBooking.create({
-    userId: req.user.id,
+    userId,
     carId,
     transactionId,
     transactionRef,

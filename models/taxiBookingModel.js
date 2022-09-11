@@ -24,7 +24,7 @@ const taxiBookingnSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    pickpDate: {
+    pickupDate: {
       type: String,
       required: true,
     },

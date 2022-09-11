@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const TaxiBooking = require("../models/taxiBookingModel");
+const TaxiCar = require("../models/taxiCarModel");
 const addTaxiCar = asyncHandler(async (req, res) => {
   const { categoryName, multipier, catImg } = req.body;
 

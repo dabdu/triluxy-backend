@@ -24,7 +24,7 @@ const getTaxiRides = asyncHandler(async (req, res) => {
 const addBooking = asyncHandler(async (req, res) => {
   const {
     userId,
-    carId,
+    categoryId,
     transactionId,
     transactionRef,
     amount,
@@ -41,7 +41,7 @@ const addBooking = asyncHandler(async (req, res) => {
 
   if (
     !userId ||
-    !carId ||
+    !categoryId ||
     !transactionId ||
     !transactionRef ||
     !amount ||
@@ -60,7 +60,7 @@ const addBooking = asyncHandler(async (req, res) => {
   }
   const book = await TaxiBooking.create({
     userId,
-    carId,
+    categoryId,
     transactionId,
     transactionRef,
     amount,
@@ -74,7 +74,7 @@ const addBooking = asyncHandler(async (req, res) => {
     destDesc,
     status,
     isPaid: true,
-    assignedDriverId: "",
+    assignedCarId: "",
   });
   res.status(201).json(book);
 });

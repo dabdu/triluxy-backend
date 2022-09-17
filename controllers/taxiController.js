@@ -178,9 +178,9 @@ const getTaxiDriversByLocation = asyncHandler(async (req, res) => {
   });
   res.status(200).json(driversByLocation);
 });
-const getAvailableTaxiDrivers = asyncHandler(async (req, res) => {
-  const drivers = await TaxiDriver.find({ status: "Available" });
-  res.status(200).json(drivers);
+const getDriverByAvailablity = asyncHandler(async (req, res) => {
+  const driversByAvailability = await TaxiDriver.find();
+  res.status(200).json(driversByAvailability);
 });
 module.exports = {
   addBooking,
@@ -190,5 +190,5 @@ module.exports = {
   getTaxiRides,
   addtaxiDriverDetails,
   getTaxiDriversByLocation,
-  getAvailableTaxiDrivers,
+  getDriverByAvailablity,
 };

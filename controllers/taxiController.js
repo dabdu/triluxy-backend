@@ -4,6 +4,7 @@ const TaxiCar = require("../models/taxiCarModel");
 const TaxiRide = require("../models/taxiRides");
 const User = require("../models/userModel");
 const TaxiDriver = require("../models/taxiDriverModel");
+const { sendMailFunction } = require("../functions/mailFunction");
 const addTaxiRides = asyncHandler(async (req, res) => {
   const { categoryName, multiplier, catImg } = req.body;
 
@@ -39,6 +40,7 @@ const addBooking = asyncHandler(async (req, res) => {
     destLng,
     destDesc,
     status,
+    rideCity,
   } = req.body;
 
   if (
@@ -55,7 +57,8 @@ const addBooking = asyncHandler(async (req, res) => {
     !destLat ||
     !destLng ||
     !destDesc ||
-    !status
+    !status ||
+    !rideCity
   ) {
     res.status(400);
     throw new Error("All Fields Must be fill");
@@ -78,6 +81,22 @@ const addBooking = asyncHandler(async (req, res) => {
     isPaid: true,
     assignedCarId: "",
   });
+  if (!book) {
+    return;
+  } else {
+    const driversByLocation = await TaxiDriver.find({
+      rideCity: rideCity,
+      status: "Available",
+    });
+    for (const val of driversByLocation) {
+      const drivers = await User.find({ _id: val.userId });
+      await sendMailFunction(
+        `${drivers[0].email},`,
+        "Urgent, Confirm Ride Request",
+        "A User Just Booked a ride now with your locality, Quickly Login into your dashboard and Accept, by anyone does. Thanks"
+      );
+    }
+  }
   res.status(201).json(book);
 });
 const getUserTaxiBookings = asyncHandler(async (req, res) => {
@@ -159,6 +178,10 @@ const getTaxiDriversByLocation = asyncHandler(async (req, res) => {
   });
   res.status(200).json(driversByLocation);
 });
+const getAvailableTaxiDrivers = asyncHandler(async (req, res) => {
+  const drivers = await TaxiDriver.find({ status: "Available" });
+  res.status(200).json(drivers);
+});
 module.exports = {
   addBooking,
   getUserTaxiBookings,
@@ -167,4 +190,5 @@ module.exports = {
   getTaxiRides,
   addtaxiDriverDetails,
   getTaxiDriversByLocation,
+  getAvailableTaxiDrivers,
 };

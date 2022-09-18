@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
-const taxiDriverSchema = mongoose.Schema(
+const carSchema = mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
-      unique: true,
     },
     carName: {
       type: String,
@@ -20,6 +19,18 @@ const taxiDriverSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    carImages: {
+      type: [String],
+      required: true,
+    },
+    carDocuments: {
+      type: [String],
+      required: true,
+    },
+    pricePerDay: {
+      type: Number,
+      required: true,
+    },
     plateNumber: {
       type: String,
       required: true,
@@ -28,28 +39,15 @@ const taxiDriverSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    carImage: {
-      type: String,
-      required: true,
-    },
-    licenseNumber: {
-      type: String,
-      required: true,
-    },
-    licenseImg: {
-      type: String,
-      required: true,
-    },
-    carDocuments: {
-      type: [String],
-      required: true,
-    },
     rideCity: {
       type: String,
       required: true,
     },
     rideState: {
       type: String,
+    },
+    carSpecs: {
+      type: [String],
       required: true,
     },
     carDesc: {
@@ -63,4 +61,4 @@ const taxiDriverSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("TaxiDriver", taxiDriverSchema);
+module.exports = mongoose.model("Car", carSchema);

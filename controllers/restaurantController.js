@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Restaurant = require("../models/restaurantModel");
 const ResReservation = require("../models/resReservationModel");
+const ResMenuItem = require("../models/resMenuItemModel");
 const adminAddrestaurant = asyncHandler(async (req, res) => {
   const {
     restaurantName,
@@ -93,10 +94,45 @@ const adminGetAllReservations = asyncHandler(async (req, res) => {
   const reservations = await ResReservation.find();
   res.status(200).json(reservations);
 });
+
+const addMenuItem = asyncHandler(async (req, res) => {
+  const {
+    restaurantId,
+    menuName,
+    menuImg,
+    menuType,
+    price,
+    discountedPrice,
+    description,
+  } = req.body;
+
+  if (!restaurantId || !price || !menuName || !menuImg || !menuType) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const menu_item = await ResMenuItem.create({
+    restaurantId,
+    menuName,
+    menuImg,
+    menuType,
+    price,
+    discountedPrice,
+    description,
+  });
+  res.status(201).json(menu_item);
+});
+const getRestaurantMenuItems = asyncHandler(async (req, res) => {
+  const menu_items = await ResMenuItem.find({
+    restaurantId: req.params.id,
+  });
+  res.status(200).json(menu_items);
+});
 module.exports = {
   adminAddrestaurant,
   adminGetAllRestaurants,
   adminGetAllReservations,
   addNewReservation,
   getUserReservations,
+  addMenuItem,
+  getRestaurantMenuItems,
 };

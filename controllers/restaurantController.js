@@ -2,6 +2,10 @@ const asyncHandler = require("express-async-handler");
 const Restaurant = require("../models/restaurantModel");
 const ResReservation = require("../models/resReservationModel");
 const ResMenuItem = require("../models/resMenuItemModel");
+const User = require("../models/userModel");
+const ResMenuOrder = require("../models/resMenuOrder");
+const { sendMailFunction } = require("../functions/mailFunction");
+
 const adminAddrestaurant = asyncHandler(async (req, res) => {
   const {
     restaurantName,
@@ -127,6 +131,60 @@ const getRestaurantMenuItems = asyncHandler(async (req, res) => {
   });
   res.status(200).json(menu_items);
 });
+const createOrder = asyncHandler(async (req, res) => {
+  const {
+    userId,
+    restaurantId,
+    transactionId,
+    transactionRef,
+    amount,
+    orderedItems,
+    status,
+    isPaid,
+    paymentMode,
+    deliveryAddress,
+  } = req.body;
+
+  if (
+    !userId ||
+    !restaurantId ||
+    !transactionId ||
+    !transactionRef ||
+    !amount ||
+    !orderedItems ||
+    !status ||
+    !paymentMode ||
+    !deliveryAddress
+  ) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const order = await ResMenuOrder.create({
+    userId,
+    restaurantId,
+    transactionId,
+    transactionRef,
+    amount,
+    orderedItems,
+    deliveryAddress,
+    status,
+    isPaid,
+    paymentMode,
+  });
+  if (!order) {
+    return;
+  } else {
+    const restaurant = await Restaurant.findById(restaurantId);
+    const user = await User.findById(restaurant.user);
+    console.log(user);
+    await sendMailFunction(
+      `${user.email},`,
+      "Urgent, Confrim Order",
+      "You Just recieve a new Order, Please Login on your Dashboard to Confirm and process the Order. Thanks"
+    );
+  }
+  res.status(201).json(order);
+});
 module.exports = {
   adminAddrestaurant,
   adminGetAllRestaurants,
@@ -135,4 +193,5 @@ module.exports = {
   getUserReservations,
   addMenuItem,
   getRestaurantMenuItems,
+  createOrder,
 };

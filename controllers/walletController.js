@@ -5,17 +5,36 @@ const getUserTransactions = asyncHandler(async (req, res) => {
   res.status(200).json(transactions);
 });
 const createNewTransaction = asyncHandler(async (req, res) => {
-  const { desc, amount, transType } = req.body;
+  const {
+    desc,
+    amount,
+    transType,
+    transactionId,
+    transactionRef,
+    paymentMode,
+    userId,
+  } = req.body;
 
-  if (!desc || !amount || !transType) {
+  if (
+    !desc ||
+    !amount ||
+    !transType ||
+    !transactionId ||
+    !transactionRef ||
+    !paymentMode ||
+    !userId
+  ) {
     res.status(400);
     throw new Error("All Fields Must be fill");
   }
   const transaction = await Wallet.create({
-    userId: req.user.id,
+    userId,
     desc,
     amount,
     transType,
+    transactionId,
+    transactionRef,
+    paymentMode,
   });
   res.status(201).json(transaction);
 });

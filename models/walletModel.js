@@ -7,6 +7,14 @@ const walletSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    transactionId: {
+      type: String,
+      required: true,
+    },
+    transactionRef: {
+      type: String,
+      required: true,
+    },
     amount: {
       type: Number,
       required: [true, "Zip Code Field is Required"],
@@ -19,6 +27,10 @@ const walletSchema = mongoose.Schema(
       type: String,
       required: [true, "transaction detail Field is Required"],
       enum: ["CREDIT", "DEBIT"],
+    },
+    paymentMode: {
+      type: String,
+      required: true,
     },
     status: {
       type: String,

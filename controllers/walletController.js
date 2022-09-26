@@ -1,7 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const Wallet = require("../models/walletModel");
 const getUserTransactions = asyncHandler(async (req, res) => {
-  const transactions = await Wallet.find({ userId: req.user.id });
+  const transactions = await Wallet.find({ userId: req.user.id }).sort({
+    createdAt: -1,
+  });
   res.status(200).json(transactions);
 });
 const createNewTransaction = asyncHandler(async (req, res) => {

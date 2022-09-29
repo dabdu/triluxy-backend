@@ -8,6 +8,7 @@ const {
   addMenuItem,
   getRestaurantMenuItems,
   createOrder,
+  getUserOrders,
 } = require("../controllers/restaurantController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -23,4 +24,5 @@ router.route("/reservations").post(protect, addNewReservation);
 router.route("/add-menu").post(protect, addMenuItem);
 router.route("/:id/menu-items").get(protect, getRestaurantMenuItems);
 router.route("/order").post(protect, createOrder);
+router.route("/orders").get(protect, getUserOrders);
 module.exports = router;

@@ -191,6 +191,14 @@ const createOrder = asyncHandler(async (req, res) => {
   }
   res.status(201).json(order);
 });
+const getUserOrders = asyncHandler(async (req, res) => {
+  const orders = await ResMenuOrder.find({
+    userId: req.params.id,
+  }).sort({
+    createdAt: -1,
+  });
+  res.status(200).json(orders);
+});
 module.exports = {
   adminAddrestaurant,
   adminGetAllRestaurants,
@@ -200,4 +208,5 @@ module.exports = {
   addMenuItem,
   getRestaurantMenuItems,
   createOrder,
+  getUserOrders,
 };

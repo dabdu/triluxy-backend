@@ -100,7 +100,9 @@ const getUserReservations = asyncHandler(async (req, res) => {
   res.status(200).json(reservations);
 });
 const getAllReservations = asyncHandler(async (req, res) => {
-  const reservations = await Reservation.find();
+  const reservations = await Reservation.find().sort({
+    createdAt: -1,
+  });
   res.status(200).json(reservations);
 });
 const getBookedReservations = asyncHandler(async (req, res) => {

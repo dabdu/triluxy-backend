@@ -100,7 +100,9 @@ const addBooking = asyncHandler(async (req, res) => {
   res.status(201).json(book);
 });
 const getUserTaxiBookings = asyncHandler(async (req, res) => {
-  const taxiBookings = await TaxiBooking.find({ userId: req.params.id });
+  const taxiBookings = await TaxiBooking.find({ userId: req.params.id }).sort({
+    createdAt: -1,
+  });
   res.status(200).json(taxiBookings);
 });
 const adminGetAllTaxiBookings = asyncHandler(async (req, res) => {

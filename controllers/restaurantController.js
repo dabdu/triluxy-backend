@@ -91,7 +91,11 @@ const addNewReservation = asyncHandler(async (req, res) => {
   res.status(201).json(reservation);
 });
 const getUserReservations = asyncHandler(async (req, res) => {
-  const reservations = await ResReservation.find({ userId: req.params.id });
+  const reservations = await ResReservation.find({
+    userId: req.params.id,
+  }).sort({
+    createdAt: -1,
+  });
   res.status(200).json(reservations);
 });
 const adminGetAllReservations = asyncHandler(async (req, res) => {
@@ -128,6 +132,8 @@ const addMenuItem = asyncHandler(async (req, res) => {
 const getRestaurantMenuItems = asyncHandler(async (req, res) => {
   const menu_items = await ResMenuItem.find({
     restaurantId: req.params.id,
+  }).sort({
+    createdAt: -1,
   });
   res.status(200).json(menu_items);
 });

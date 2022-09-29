@@ -24,5 +24,5 @@ router.route("/reservations").post(protect, addNewReservation);
 router.route("/add-menu").post(protect, addMenuItem);
 router.route("/:id/menu-items").get(protect, getRestaurantMenuItems);
 router.route("/order").post(protect, createOrder);
-router.route("/orders").get(protect, getUserOrders);
+router.route("/orders/:id").get(protect, getUserOrders);
 module.exports = router;

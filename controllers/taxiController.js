@@ -173,6 +173,10 @@ const addtaxiDriverDetails = asyncHandler(async (req, res) => {
     res.status(201).json(taxi_driver);
   }
 });
+const getTaxiById = asyncHandler(async (req, res) => {
+  const taxi = await TaxiDriver.findById(req.params.id);
+  res.status(200).json(taxi);
+});
 const getTaxiDriversByLocation = asyncHandler(async (req, res) => {
   const driversByLocation = await TaxiDriver.find({
     rideCity: req.params.ride_city,
@@ -193,4 +197,5 @@ module.exports = {
   addtaxiDriverDetails,
   getTaxiDriversByLocation,
   getDriverByAvailablity,
+  getTaxiById,
 };

@@ -55,6 +55,10 @@ const addCarDetails = asyncHandler(async (req, res) => {
   });
   res.status(201).json(car);
 });
+const getCarById = asyncHandler(async (req, res) => {
+  const car = await Car.findById(req.params.id);
+  res.status(200).json(car);
+});
 const getCarsByLocation = asyncHandler(async (req, res) => {
   const carsByLocation = await Car.find({
     rideCity: req.params.ride_city,
@@ -145,6 +149,7 @@ const getUserBookings = asyncHandler(async (req, res) => {
 });
 module.exports = {
   addCarDetails,
+  getCarById,
   getCarsByLocation,
   getCarsByAvailablity,
   carBooking,

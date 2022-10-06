@@ -26,13 +26,12 @@ router.route("/add-menu").post(protect, addMenuItem);
 router.route("/order").post(protect, createOrder);
 router.route("/orders/:id").get(protect, getUserOrders);
 router.route("/reservations/:id").get(protect, getUserReservations);
+router.route("/menu-items/:id").get(protect, getRestaurantMenuItems);
 
 // Restaurant Admin Routes
-
 router
-  .route("/admin/res/reservations/:res_id")
+  .route("/reservations/restaurant/:restaurantId")
   .get(protect, getRestaurantReservations);
 router.route("/admin/:user_id").get(protect, getAdminRestaurant);
-router.route("/menu-items/:id").get(protect, getRestaurantMenuItems);
 
 module.exports = router;

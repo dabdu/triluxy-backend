@@ -112,7 +112,7 @@ const getAdminRestaurant = asyncHandler(async (req, res) => {
 
 const getRestaurantReservations = asyncHandler(async (req, res) => {
   const reservations = await ResReservation.find({
-    restaurantId: req.params.res_id,
+    restaurantId: req.params.restaurantId,
   }).sort({
     createdAt: -1,
   });

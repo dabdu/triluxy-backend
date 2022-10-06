@@ -26,7 +26,6 @@ router.route("/add-menu").post(protect, addMenuItem);
 router.route("/order").post(protect, createOrder);
 router.route("/orders/:id").get(protect, getUserOrders);
 router.route("/reservations/:id").get(protect, getUserReservations);
-router.route("/:id/menu-items").get(protect, getRestaurantMenuItems);
 
 // Restaurant Admin Routes
 
@@ -34,4 +33,6 @@ router
   .route("/admin/res/reservations/:res_id")
   .get(protect, getRestaurantReservations);
 router.route("/admin/:user_id").get(protect, getAdminRestaurant);
+router.route("/:id/menu-items").get(protect, getRestaurantMenuItems);
+
 module.exports = router;

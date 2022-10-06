@@ -103,6 +103,21 @@ const adminGetAllReservations = asyncHandler(async (req, res) => {
   res.status(200).json(reservations);
 });
 
+const getAdminRestaurant = asyncHandler(async (req, res) => {
+  const restaurant = await Restaurant.findOne({
+    user: req.params.user_id,
+  });
+  res.status(200).json(restaurant);
+});
+
+const getRestaurantReservations = asyncHandler(async (req, res) => {
+  const reservations = await ResReservation.find({
+    restaurantId: req.params.res_id,
+  }).sort({
+    createdAt: -1,
+  });
+  res.status(200).json(reservations);
+});
 const addMenuItem = asyncHandler(async (req, res) => {
   const {
     restaurantId,
@@ -209,4 +224,6 @@ module.exports = {
   getRestaurantMenuItems,
   createOrder,
   getUserOrders,
+  getAdminRestaurant,
+  getRestaurantReservations,
 };

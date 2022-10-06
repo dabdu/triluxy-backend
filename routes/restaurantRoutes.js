@@ -9,6 +9,8 @@ const {
   getRestaurantMenuItems,
   createOrder,
   getUserOrders,
+  getRestaurantReservations,
+  getAdminRestaurant,
 } = require("../controllers/restaurantController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -25,4 +27,11 @@ router.route("/add-menu").post(protect, addMenuItem);
 router.route("/:id/menu-items").get(protect, getRestaurantMenuItems);
 router.route("/order").post(protect, createOrder);
 router.route("/orders/:id").get(protect, getUserOrders);
+
+// Restaurant Admin Routes
+
+router
+  .route("/admin/res/reservations/:res_id")
+  .get(protect, getRestaurantReservations);
+router.route("/admin/:user_id").get(protect, getAdminRestaurant);
 module.exports = router;

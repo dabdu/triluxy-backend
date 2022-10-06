@@ -21,12 +21,12 @@ router
   .post(protect, adminAddrestaurant);
 
 router.route("/admin/reservations").get(protect, adminGetAllReservations);
-router.route("/reservations/:id").get(protect, getUserReservations);
 router.route("/reservations").post(protect, addNewReservation);
 router.route("/add-menu").post(protect, addMenuItem);
-router.route("/:id/menu-items").get(protect, getRestaurantMenuItems);
 router.route("/order").post(protect, createOrder);
 router.route("/orders/:id").get(protect, getUserOrders);
+router.route("/reservations/:id").get(protect, getUserReservations);
+router.route("/:id/menu-items").get(protect, getRestaurantMenuItems);
 
 // Restaurant Admin Routes
 

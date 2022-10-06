@@ -33,6 +33,6 @@ router
   .route("/admin/res/reservations/:res_id")
   .get(protect, getRestaurantReservations);
 router.route("/admin/:user_id").get(protect, getAdminRestaurant);
-router.route("/:id/menu-items").get(protect, getRestaurantMenuItems);
+router.route("/menu-items/:id").get(protect, getRestaurantMenuItems);
 
 module.exports = router;

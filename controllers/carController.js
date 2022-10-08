@@ -149,6 +149,12 @@ const getUserBookings = asyncHandler(async (req, res) => {
   });
   res.status(200).json(bookings);
 });
+const getAllCarBookings = asyncHandler(async (req, res) => {
+  const bookings = await CarBooking.find().sort({
+    createdAt: -1,
+  });
+  res.status(200).json(bookings);
+});
 module.exports = {
   addCarDetails,
   getCarById,
@@ -156,4 +162,5 @@ module.exports = {
   getCarsByAvailablity,
   carBooking,
   getUserBookings,
+  getAllCarBookings,
 };

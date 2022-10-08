@@ -63,7 +63,7 @@ const carBookingSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["BOOKED", "CONFIRMED", "PICKED", "RETURNED", "CANCEL"],
+      enum: ["BOOKED", "CONFIRMED", "PICKED", "RETURNED", "CANCEL", "REJECTED"],
     },
   },
   { timestamps: true }

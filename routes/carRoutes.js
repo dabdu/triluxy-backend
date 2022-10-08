@@ -7,6 +7,7 @@ const {
   getUserBookings,
   getCarById,
   getAllCarBookings,
+  getCarByUserId,
 } = require("../controllers/carController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -18,5 +19,6 @@ router.route("/booking").post(protect, carBooking);
 router.route("/all-bookings").get(protect, getAllCarBookings);
 router.route("/bookings/user/:id").get(protect, getUserBookings);
 router.route("/car/:id").get(protect, getCarById);
+router.route("/user/:id").get(protect, getCarByUserId);
 
 module.exports = router;

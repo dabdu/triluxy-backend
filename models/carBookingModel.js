@@ -12,6 +12,11 @@ const carBookingSchema = mongoose.Schema(
       required: true,
       ref: "Car",
     },
+    carOwnerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Car",
+    },
     transactionId: {
       type: String,
       required: true,

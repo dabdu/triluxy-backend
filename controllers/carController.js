@@ -114,6 +114,7 @@ const carBooking = asyncHandler(async (req, res) => {
   const book = await CarBooking.create({
     userId,
     carId,
+    carOwnerId,
     transactionId,
     transactionRef,
     amount,

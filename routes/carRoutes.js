@@ -19,6 +19,6 @@ router.route("/booking").post(protect, carBooking);
 router.route("/all-bookings").get(protect, getAllCarBookings);
 router.route("/bookings/user/:id").get(protect, getUserBookings);
 router.route("/car/:id").get(protect, getCarById);
-router.route("/user/:id").get(protect, getCarByUserId);
+router.route("/user/:userId").get(protect, getCarByUserId);
 
 module.exports = router;

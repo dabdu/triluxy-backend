@@ -157,9 +157,11 @@ const getAllCarBookings = asyncHandler(async (req, res) => {
   res.status(200).json(bookings);
 });
 const getCarByUserId = asyncHandler(async (req, res) => {
-  const car = await CarBooking.findOne({ userId: req.params.userId }).sort({
-    createdAt: -1,
-  });
+  const car = await CarBooking.find({ carOwnerId: req.params.carOwnerId }).sort(
+    {
+      createdAt: -1,
+    }
+  );
   res.status(200).json(car);
 });
 module.exports = {

@@ -164,6 +164,46 @@ const getBookingcarOwnerId = asyncHandler(async (req, res) => {
   );
   res.status(200).json(car);
 });
+
+const onAccept = asyncHandler(async (req, res) => {
+  const accept = await CarBooking.findByIdAndUpdate(
+    req.body.id,
+    { status: "CONFIRMED" },
+    {
+      new: true,
+    }
+  );
+  if (!accept) {
+    return;
+  } else {
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Car Request Accepted",
+      `Your Car Request was accepted successfully, the car will be delivered to you on the Booked Date and Location. Thanks`
+    );
+  }
+  res.status(201).send(accept);
+});
+
+const onDecline = asyncHandler(async (req, res) => {
+  const decline = await CarBooking.findByIdAndUpdate(
+    req.body.id,
+    { status: "REJECTED" },
+    {
+      new: true,
+    }
+  );
+  if (!decline) {
+    return;
+  } else {
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Car Request Declined",
+      `Your Car Request was not accepted due to some reasons best known by the Car Owner, your money will be refunded back to you as soon as possible. Thanks`
+    );
+  }
+  res.status(201).send(decline);
+});
 module.exports = {
   addCarDetails,
   getCarById,
@@ -173,4 +213,6 @@ module.exports = {
   getUserBookings,
   getAllCarBookings,
   getBookingcarOwnerId,
+  onAccept,
+  onDecline,
 };

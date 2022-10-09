@@ -184,7 +184,6 @@ const onAccept = asyncHandler(async (req, res) => {
   }
   res.status(201).send(accept);
 });
-
 const onDecline = asyncHandler(async (req, res) => {
   const decline = await CarBooking.findByIdAndUpdate(
     req.body.id,
@@ -204,6 +203,45 @@ const onDecline = asyncHandler(async (req, res) => {
   }
   res.status(201).send(decline);
 });
+const onPickedUp = asyncHandler(async (req, res) => {
+  const { carId, carOwnerId, id, userEmail, name, returnDate } = req.body;
+  const pickedup = await CarBooking.findByIdAndUpdate(
+    id,
+    { status: "PICKEDUP" },
+    {
+      new: true,
+    }
+  );
+  if (!pickedup) {
+    res.status(400);
+    throw new Error("Error Occured!!!");
+  } else {
+    const unavailable = await Car.findByIdAndUpdate(
+      carId,
+      { status: "UnAvailable" },
+      {
+        new: true,
+      }
+    );
+    if (!unavailable) {
+      res.status(400);
+      throw new Error("Error Occured!!!");
+    } else {
+      const car_owner = await User.findById(carOwnerId);
+      await sendMailFunction(
+        `${car_owner.email}`,
+        "Car Picked Up",
+        `${name} Just Picked Up your Car. which he is expected to return it on ${returnDate}. Thanks`
+      );
+      await sendMailFunction(
+        `${userEmail}`,
+        "Car Picked Up",
+        `you Just Picked Up the Car you rented. Make sure to return it on ${returnDate} as Booked. Thanks`
+      );
+    }
+  }
+  res.status(201).send(pickedup);
+});
 module.exports = {
   addCarDetails,
   getCarById,
@@ -215,4 +253,5 @@ module.exports = {
   getBookingcarOwnerId,
   onAccept,
   onDecline,
+  onPickedUp,
 };

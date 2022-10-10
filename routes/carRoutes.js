@@ -11,6 +11,7 @@ const {
   onAccept,
   onDecline,
   onPickedUp,
+  onReturn,
 } = require("../controllers/carController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -21,6 +22,7 @@ router.route("/booking").post(protect, carBooking);
 router.route("/all-bookings").get(protect, getAllCarBookings);
 router.route("/rentor/accept").put(protect, onAccept);
 router.route("/rentor/decline").put(protect, onDecline);
+router.route("/rentor/returned").put(protect, onReturn);
 router.route("/user/pickedup").put(protect, onPickedUp);
 router.route("/cars/:ride_city").get(protect, getCarsByLocation);
 router.route("/bookings/user/:id").get(protect, getUserBookings);

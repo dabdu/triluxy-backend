@@ -242,6 +242,26 @@ const onPickedUp = asyncHandler(async (req, res) => {
   }
   res.status(201).send(pickedup);
 });
+const onReturn = asyncHandler(async (req, res) => {
+  const returned = await CarBooking.findByIdAndUpdate(
+    req.body.id,
+    { status: "RETURNED" },
+    {
+      new: true,
+    }
+  );
+  if (!returned) {
+    res.status(400);
+    throw new Error("Error Occured");
+  } else {
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Car Request Process Completed",
+      `Your Car Request Process is completed successfully, the car rented by you has been returned, Hope to see you soon, don't forget to give review about your exprience with our Service. Thanks`
+    );
+  }
+  res.status(201).send(returned);
+});
 module.exports = {
   addCarDetails,
   getCarById,
@@ -254,4 +274,5 @@ module.exports = {
   onAccept,
   onDecline,
   onPickedUp,
+  onReturn,
 };

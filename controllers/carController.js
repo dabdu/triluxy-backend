@@ -254,11 +254,23 @@ const onReturn = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Error Occured");
   } else {
-    await sendMailFunction(
-      `${req.body.userEmail}`,
-      "Car Request Process Completed",
-      `Your Car Request Process is completed successfully, the car rented by you has been returned, Hope to see you soon, don't forget to give review about your exprience with our Service. Thanks`
+    const unavailable = await Car.findByIdAndUpdate(
+      req.body.carId,
+      { status: "Available" },
+      {
+        new: true,
+      }
     );
+    if (!unavailable) {
+      res.status(400);
+      throw new Error("Error Occured!!!");
+    } else {
+      await sendMailFunction(
+        `${req.body.userEmail}`,
+        "Car Request Process Completed",
+        `Your Car Request Process is completed successfully, the car rented by you has been returned, Hope to see you soon, don't forget to give review about your exprience with our Service. Thanks`
+      );
+    }
   }
   res.status(201).send(returned);
 });

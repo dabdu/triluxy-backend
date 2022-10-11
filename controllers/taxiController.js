@@ -193,7 +193,7 @@ const getTaxiDriversByLocation = asyncHandler(async (req, res) => {
 });
 const getTaxiBookingsByLocation = asyncHandler(async (req, res) => {
   const bookings = await TaxiDriver.find({
-    rideCity: req.body.rideCity,
+    rideCity: req.params.city,
   });
   res.status(200).json(bookings);
 });

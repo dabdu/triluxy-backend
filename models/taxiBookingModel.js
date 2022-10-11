@@ -24,6 +24,10 @@ const taxiBookingnSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    rideCity: {
+      type: String,
+      required: true,
+    },
     pickupDate: {
       type: String,
       required: true,

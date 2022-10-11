@@ -80,6 +80,7 @@ const addBooking = asyncHandler(async (req, res) => {
     status,
     isPaid: true,
     assignedCarId: "",
+    rideCity,
   });
   if (!book) {
     return;
@@ -184,6 +185,12 @@ const getTaxiDriversByLocation = asyncHandler(async (req, res) => {
   });
   res.status(200).json(driversByLocation);
 });
+const getTaxiBookingsByLocation = asyncHandler(async (req, res) => {
+  const bookings = await TaxiDriver.find({
+    rideCity: req.body.rideCity,
+  });
+  res.status(200).json(bookings);
+});
 const getDriverByAvailablity = asyncHandler(async (req, res) => {
   const driversByAvailability = await TaxiDriver.find();
   res.status(200).json(driversByAvailability);
@@ -198,4 +205,5 @@ module.exports = {
   getTaxiDriversByLocation,
   getDriverByAvailablity,
   getTaxiById,
+  getTaxiBookingsByLocation,
 };

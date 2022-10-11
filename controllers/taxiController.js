@@ -180,7 +180,7 @@ const getTaxiById = asyncHandler(async (req, res) => {
 });
 const getTaxiDriverByUserId = asyncHandler(async (req, res) => {
   const taxi = await TaxiDriver.findOne({
-    userId: req.body.userId,
+    userId: req.params.userId,
   });
   res.status(200).json(taxi);
 });

@@ -12,6 +12,7 @@ const {
   getTaxiById,
   getTaxiBookingsByLocation,
   getTaxiDriverByUserId,
+  onAcceptRequest,
 } = require("../controllers/taxiController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -19,6 +20,7 @@ router.route("/booking").post(protect, addBooking);
 router.route("/admin/bookings").get(protect, adminGetAllTaxiBookings);
 router.route("/rides").get(protect, getTaxiRides).post(protect, addTaxiRides);
 router.route("/add-driver-details").post(protect, addtaxiDriverDetails);
+router.route("/accept-request").put(protect, onAcceptRequest);
 router
   .route("/bookings/location/:city")
   .get(protect, getTaxiBookingsByLocation);

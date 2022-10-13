@@ -201,6 +201,33 @@ const getDriverByAvailablity = asyncHandler(async (req, res) => {
   const driversByAvailability = await TaxiDriver.find();
   res.status(200).json(driversByAvailability);
 });
+const onAcceptRequest = asyncHandler(async (req, res) => {
+  const { assignedCarId, bookingId, driverEmail, userId } = req.body;
+  const accept = await TaxiBooking.findByIdAndUpdate(
+    bookingId,
+    { status: "CONFIRMED", assignedCarId: assignedCarId },
+    {
+      new: true,
+    }
+  );
+  if (!accept) {
+    res.status(400);
+    throw new Error("Error Occured!!!");
+  } else {
+    const user = await User.findById(userId);
+    await sendMailFunction(
+      `${user.email}`,
+      "Taxi Request Confirmed",
+      `Your Taxi Booking Has Been confirmed, and You have been assigned a Driver for your ride, Login to your app and check the Driver's and Car's Details. Thanks`
+    );
+    await sendMailFunction(
+      `${driverEmail}`,
+      "Request Accepted",
+      `you have accepted the user's Taxi request. Thanks`
+    );
+  }
+  res.status(201).send(accept);
+});
 module.exports = {
   addBooking,
   getUserTaxiBookings,
@@ -213,4 +240,5 @@ module.exports = {
   getTaxiById,
   getTaxiBookingsByLocation,
   getTaxiDriverByUserId,
+  onAcceptRequest,
 };

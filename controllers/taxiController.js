@@ -101,7 +101,9 @@ const addBooking = asyncHandler(async (req, res) => {
   res.status(201).json(book);
 });
 const getUserTaxiBookings = asyncHandler(async (req, res) => {
-  const taxiBookings = await TaxiBooking.find({ userId: req.params.id }).sort({
+  const taxiBookings = await TaxiBooking.find({
+    userId: req.params.userid,
+  }).sort({
     createdAt: -1,
   });
   res.status(200).json(taxiBookings);

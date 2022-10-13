@@ -24,6 +24,7 @@ router.route("/accept-request").put(protect, onAcceptRequest);
 router
   .route("/bookings/location/:city")
   .get(protect, getTaxiBookingsByLocation);
+router.route("/user/bookings/:userid").get(protect, getUserTaxiBookings);
 router.route("/details/:id").get(protect, getTaxiById);
 router.route("/drivers/:ride_city").get(protect, getTaxiDriversByLocation);
 router.route("/user/driver/:userId").get(protect, getTaxiDriverByUserId);

@@ -13,6 +13,8 @@ const {
   getTaxiBookingsByLocation,
   getTaxiDriverByUserId,
   onAcceptRequest,
+  getDriverBookingsById,
+  onStartTrip,
 } = require("../controllers/taxiController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -21,10 +23,14 @@ router.route("/admin/bookings").get(protect, adminGetAllTaxiBookings);
 router.route("/rides").get(protect, getTaxiRides).post(protect, addTaxiRides);
 router.route("/add-driver-details").post(protect, addtaxiDriverDetails);
 router.route("/accept-request").put(protect, onAcceptRequest);
+router.route("/start-trip").put(protect, onStartTrip);
 router
   .route("/bookings/location/:city")
   .get(protect, getTaxiBookingsByLocation);
 router.route("/user/bookings/:userid").get(protect, getUserTaxiBookings);
+router
+  .route("/bookings/driver/:assignedCarId")
+  .get(protect, getDriverBookingsById);
 router.route("/details/:id").get(protect, getTaxiById);
 router.route("/drivers/:ride_city").get(protect, getTaxiDriversByLocation);
 router.route("/user/driver/:userId").get(protect, getTaxiDriverByUserId);

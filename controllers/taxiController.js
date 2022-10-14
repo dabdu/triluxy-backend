@@ -199,6 +199,12 @@ const getTaxiBookingsByLocation = asyncHandler(async (req, res) => {
   });
   res.status(200).json(bookings);
 });
+const getDriverBookingsById = asyncHandler(async (req, res) => {
+  const bookings = await TaxiBooking.find({
+    assignedCarId: req.params.assignedCarId,
+  });
+  res.status(200).json(bookings);
+});
 const getDriverByAvailablity = asyncHandler(async (req, res) => {
   const driversByAvailability = await TaxiDriver.find();
   res.status(200).json(driversByAvailability);
@@ -230,6 +236,33 @@ const onAcceptRequest = asyncHandler(async (req, res) => {
   }
   res.status(201).send(accept);
 });
+const onStartTrip = asyncHandler(async (req, res) => {
+  const { assignedCarId, bookingId, driverEmail, userId } = req.body;
+  const start_trip = await TaxiBooking.findByIdAndUpdate(
+    bookingId,
+    { status: "CHECKEDIN", assignedCarId: assignedCarId },
+    {
+      new: true,
+    }
+  );
+  if (!start_trip) {
+    res.status(400);
+    throw new Error("Error Occured!!!");
+  } else {
+    const user = await User.findById(userId);
+    await sendMailFunction(
+      `${user.email}`,
+      "Trip Started",
+      `Your trip has started, the driver has picked you from your destination, Safe Strip. Thanks`
+    );
+    await sendMailFunction(
+      `${driverEmail}`,
+      "Trip Started",
+      `You just started this ride now. Thanks`
+    );
+  }
+  res.status(201).send(start_trip);
+});
 module.exports = {
   addBooking,
   getUserTaxiBookings,
@@ -243,4 +276,6 @@ module.exports = {
   getTaxiBookingsByLocation,
   getTaxiDriverByUserId,
   onAcceptRequest,
+  getDriverBookingsById,
+  onStartTrip,
 };

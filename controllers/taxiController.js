@@ -263,6 +263,33 @@ const onStartTrip = asyncHandler(async (req, res) => {
   }
   res.status(201).send(start_trip);
 });
+const onEndTrip = asyncHandler(async (req, res) => {
+  const { assignedCarId, bookingId, driverEmail, userId } = req.body;
+  const end_trip = await TaxiBooking.findByIdAndUpdate(
+    bookingId,
+    { status: "CHECKEDOUT", assignedCarId: assignedCarId },
+    {
+      new: true,
+    }
+  );
+  if (!end_trip) {
+    res.status(400);
+    throw new Error("Error Occured!!!");
+  } else {
+    const user = await User.findById(userId);
+    await sendMailFunction(
+      `${user.email}`,
+      "Trip Ended",
+      `Your trip has end, the driver has arrived you from your destination, Hope you Enjoyed your trip. Thanks`
+    );
+    await sendMailFunction(
+      `${driverEmail}`,
+      "Trip Ended",
+      `You just Ended this ride now, Kindly Await your Payment. Thanks`
+    );
+  }
+  res.status(201).send(end_trip);
+});
 module.exports = {
   addBooking,
   getUserTaxiBookings,
@@ -278,4 +305,5 @@ module.exports = {
   onAcceptRequest,
   getDriverBookingsById,
   onStartTrip,
+  onEndTrip,
 };

@@ -15,6 +15,7 @@ const {
   onAcceptRequest,
   getDriverBookingsById,
   onStartTrip,
+  onEndTrip,
 } = require("../controllers/taxiController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -24,6 +25,7 @@ router.route("/rides").get(protect, getTaxiRides).post(protect, addTaxiRides);
 router.route("/add-driver-details").post(protect, addtaxiDriverDetails);
 router.route("/accept-request").put(protect, onAcceptRequest);
 router.route("/start-trip").put(protect, onStartTrip);
+router.route("/start-end").put(protect, onEndTrip);
 router
   .route("/bookings/location/:city")
   .get(protect, getTaxiBookingsByLocation);

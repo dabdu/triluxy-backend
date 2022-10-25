@@ -30,7 +30,14 @@ const resReservationSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["BOOKED", "CONFIRMED", "CHECKEDIN", "CHECKEDOUT", "CANCEL"],
+      enum: [
+        "BOOKED",
+        "CONFIRMED",
+        "CHECKEDIN",
+        "CHECKEDOUT",
+        "CANCEL",
+        "DECLINED",
+      ],
     },
   },
   { timestamps: true }

@@ -118,6 +118,45 @@ const getRestaurantReservations = asyncHandler(async (req, res) => {
   });
   res.status(200).json(reservations);
 });
+const onAcceptReservation = asyncHandler(async (req, res) => {
+  console.log("Set");
+  const accept = await ResReservation.findByIdAndUpdate(
+    req.body.id,
+    { status: "CONFIRMED" },
+    {
+      new: true,
+    }
+  );
+  if (!accept) {
+    return;
+  } else {
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Reservation Confirmed",
+      `Your Reseravtion Accept and Confirm by the Admin on the Time and date booked by You. Thanks`
+    );
+  }
+  res.status(201).send(accept);
+});
+const onDeclineReservation = asyncHandler(async (req, res) => {
+  const decline = await ResReservation.findByIdAndUpdate(
+    req.body.id,
+    { status: "DECLINED" },
+    {
+      new: true,
+    }
+  );
+  if (!decline) {
+    return;
+  } else {
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Reservation  Declined",
+      `Your Reservation request was declined by the admin, Sorry for the incoviences. Thanks`
+    );
+  }
+  res.status(201).send(decline);
+});
 const addMenuItem = asyncHandler(async (req, res) => {
   const {
     restaurantId,
@@ -226,4 +265,6 @@ module.exports = {
   getUserOrders,
   getAdminRestaurant,
   getRestaurantReservations,
+  onAcceptReservation,
+  onDeclineReservation,
 };

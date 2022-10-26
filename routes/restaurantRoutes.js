@@ -13,6 +13,8 @@ const {
   getAdminRestaurant,
   onAcceptReservation,
   onDeclineReservation,
+  onCheckedIn,
+  onCheckedOut,
 } = require("../controllers/restaurantController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -28,6 +30,8 @@ router.route("/add-menu").post(protect, addMenuItem);
 router.route("/order").post(protect, createOrder);
 router.route("/admin/accept").put(protect, onAcceptReservation);
 router.route("/admin/decline").put(protect, onDeclineReservation);
+router.route("/admin/checkin").put(protect, onCheckedIn);
+router.route("/admin/checkout").put(protect, onCheckedOut);
 router.route("/orders/:id").get(protect, getUserOrders);
 router.route("/reservations/:id").get(protect, getUserReservations);
 router.route("/menu-items/:id").get(protect, getRestaurantMenuItems);

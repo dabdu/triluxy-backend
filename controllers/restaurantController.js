@@ -157,6 +157,44 @@ const onDeclineReservation = asyncHandler(async (req, res) => {
   }
   res.status(201).send(decline);
 });
+const onCheckedIn = asyncHandler(async (req, res) => {
+  const check_in = await ResReservation.findByIdAndUpdate(
+    req.body.id,
+    { status: "CHECKEDIN" },
+    {
+      new: true,
+    }
+  );
+  if (!check_in) {
+    return;
+  } else {
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Reservation In Progress",
+      `Your Reservation Has Just started, Have Enjoy your Awesome moment with Us. Thanks`
+    );
+  }
+  res.status(201).send(check_in);
+});
+const onCheckedOut = asyncHandler(async (req, res) => {
+  const check_out = await ResReservation.findByIdAndUpdate(
+    req.body.id,
+    { status: "CHECKEDOUT" },
+    {
+      new: true,
+    }
+  );
+  if (!check_out) {
+    return;
+  } else {
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Reservation  Completed",
+      `You have just been checked out, Reservation Completed - Booked, Confirmed, Checked In, Checked Out all Successful. Hope you had a Wonderful moment with us. Thanks`
+    );
+  }
+  res.status(201).send(check_out);
+});
 const addMenuItem = asyncHandler(async (req, res) => {
   const {
     restaurantId,
@@ -267,4 +305,6 @@ module.exports = {
   getRestaurantReservations,
   onAcceptReservation,
   onDeclineReservation,
+  onCheckedIn,
+  onCheckedOut,
 };

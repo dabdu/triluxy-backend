@@ -41,7 +41,7 @@ router.route("/menu-items/:id").get(protect, getRestaurantMenuItems);
 router
   .route("/reservations/restaurant/:restaurantId")
   .get(protect, getRestaurantReservations);
-router.route("/admin/:restaurantId").get(protect, getRestaurantOrders);
+router.route("/admin/orders/:restaurantId").get(protect, getRestaurantOrders);
 router.route("/admin/:user_id").get(protect, getAdminRestaurant);
 
 module.exports = router;

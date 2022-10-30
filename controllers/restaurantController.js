@@ -299,7 +299,7 @@ const getRestaurantOrders = asyncHandler(async (req, res) => {
   res.status(200).json(orders);
 });
 const onAcceptOrder = asyncHandler(async (req, res) => {
-  const accept = await ResReservation.findByIdAndUpdate(
+  const accept = await ResMenuOrder.findByIdAndUpdate(
     req.body.id,
     { status: "ACCEPT" },
     {
@@ -318,9 +318,9 @@ const onAcceptOrder = asyncHandler(async (req, res) => {
   res.status(201).send(accept);
 });
 const onDeclineOrder = asyncHandler(async (req, res) => {
-  const decline = await ResReservation.findByIdAndUpdate(
+  const decline = await ResMenuOrder.findByIdAndUpdate(
     req.body.id,
-    { status: "DECLINED" },
+    { status: "DECLINE" },
     {
       new: true,
     }

@@ -87,12 +87,14 @@ const resMenuOrderSchema = mongoose.Schema(
       type: String,
       enum: [
         "NEW",
+        "ACCEPT",
         "COOKING",
         "READY_FOR_PICKUP",
         "PICKED_UP",
         "COMPLETED",
         "CANCEL",
         "REFUNDED",
+        "DECLINE",
       ],
     },
     paymentMode: {

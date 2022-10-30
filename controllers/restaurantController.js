@@ -119,7 +119,6 @@ const getRestaurantReservations = asyncHandler(async (req, res) => {
   res.status(200).json(reservations);
 });
 const onAcceptReservation = asyncHandler(async (req, res) => {
-  console.log("Set");
   const accept = await ResReservation.findByIdAndUpdate(
     req.body.id,
     { status: "CONFIRMED" },
@@ -299,6 +298,44 @@ const getRestaurantOrders = asyncHandler(async (req, res) => {
   });
   res.status(200).json(orders);
 });
+const onAcceptOrder = asyncHandler(async (req, res) => {
+  const accept = await ResReservation.findByIdAndUpdate(
+    req.body.id,
+    { status: "ACCEPT" },
+    {
+      new: true,
+    }
+  );
+  if (!accept) {
+    return;
+  } else {
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Order Confirmed",
+      `Your Order has been Accepted and Confirmed by the Admin, Dish Preparation and Proccessing in Progress, You Will Be update in due cause. Thanks`
+    );
+  }
+  res.status(201).send(accept);
+});
+const onDeclineOrder = asyncHandler(async (req, res) => {
+  const decline = await ResReservation.findByIdAndUpdate(
+    req.body.id,
+    { status: "DECLINED" },
+    {
+      new: true,
+    }
+  );
+  if (!decline) {
+    return;
+  } else {
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Order  Declined",
+      `Your Order request was declined by the admin due to unavoidable reasons, Your refund shall be made immediately, Sorry for the incoviences. Thanks`
+    );
+  }
+  res.status(201).send(decline);
+});
 module.exports = {
   adminAddrestaurant,
   adminGetAllRestaurants,
@@ -307,13 +344,15 @@ module.exports = {
   getUserReservations,
   addMenuItem,
   getRestaurantMenuItems,
-  createOrder,
-  getUserOrders,
-  getRestaurantOrders,
   getAdminRestaurant,
   getRestaurantReservations,
   onAcceptReservation,
   onDeclineReservation,
   onCheckedIn,
   onCheckedOut,
+  createOrder,
+  getUserOrders,
+  getRestaurantOrders,
+  onAcceptOrder,
+  onDeclineOrder,
 };

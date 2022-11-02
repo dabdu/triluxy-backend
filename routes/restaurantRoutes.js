@@ -34,7 +34,6 @@ router.route("/add-menu").post(protect, addMenuItem);
 router.route("/order").post(protect, createOrder);
 router.route("/admin/accept").put(protect, onAcceptReservation);
 router.route("/admin/decline").put(protect, onDeclineReservation);
-router.route("/admin/cooking").put(protect, onCookingOrder);
 router.route("/admin/checkin").put(protect, onCheckedIn);
 router.route("/admin/checkout").put(protect, onCheckedOut);
 router.route("/orders/:id").get(protect, getUserOrders);
@@ -43,6 +42,8 @@ router.route("/menu-items/:id").get(protect, getRestaurantMenuItems);
 // DIsh Order ROutes
 router.route("/admin/order/accept").put(protect, onAcceptOrder);
 router.route("/admin/order/decline").put(protect, onDeclineOrder);
+router.route("/admin/order/cooking").put(protect, onCookingOrder);
+
 // Restaurant Admin Routes
 router
   .route("/reservations/restaurant/:restaurantId")

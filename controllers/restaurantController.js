@@ -127,7 +127,8 @@ const onAcceptReservation = asyncHandler(async (req, res) => {
     }
   );
   if (!accept) {
-    return;
+    res.status(400);
+    throw new Error("Error Occured, Please Try Again");
   } else {
     await sendMailFunction(
       `${req.body.userEmail}`,
@@ -146,7 +147,8 @@ const onDeclineReservation = asyncHandler(async (req, res) => {
     }
   );
   if (!decline) {
-    return;
+    res.status(400);
+    throw new Error("Error Occured, Please Try Again");
   } else {
     await sendMailFunction(
       `${req.body.userEmail}`,
@@ -165,7 +167,8 @@ const onCheckedIn = asyncHandler(async (req, res) => {
     }
   );
   if (!check_in) {
-    return;
+    res.status(400);
+    throw new Error("Error Occured, Please Try Again");
   } else {
     await sendMailFunction(
       `${req.body.userEmail}`,
@@ -184,7 +187,8 @@ const onCheckedOut = asyncHandler(async (req, res) => {
     }
   );
   if (!check_out) {
-    return;
+    res.status(400);
+    throw new Error("Error Occured, Please Try Again");
   } else {
     await sendMailFunction(
       `${req.body.userEmail}`,
@@ -269,7 +273,8 @@ const createOrder = asyncHandler(async (req, res) => {
     paymentMode,
   });
   if (!order) {
-    return;
+    res.status(400);
+    throw new Error("Error Occured, Please Try Again");
   } else {
     const restaurant = await Restaurant.findById(restaurantId);
     const user = await User.findById(restaurant.user);
@@ -307,7 +312,8 @@ const onAcceptOrder = asyncHandler(async (req, res) => {
     }
   );
   if (!accept) {
-    return;
+    res.status(400);
+    throw new Error("Error Occured, Please Try Again");
   } else {
     await sendMailFunction(
       `${req.body.userEmail}`,
@@ -326,7 +332,8 @@ const onDeclineOrder = asyncHandler(async (req, res) => {
     }
   );
   if (!decline) {
-    return;
+    res.status(400);
+    throw new Error("Error Occured, Please Try Again");
   } else {
     await sendMailFunction(
       `${req.body.userEmail}`,
@@ -335,6 +342,26 @@ const onDeclineOrder = asyncHandler(async (req, res) => {
     );
   }
   res.status(201).send(decline);
+});
+const onCookingOrder = asyncHandler(async (req, res) => {
+  const cooking = await ResMenuOrder.findByIdAndUpdate(
+    req.body.id,
+    { status: "COOKING" },
+    {
+      new: true,
+    }
+  );
+  if (!cooking) {
+    res.status(400);
+    throw new Error("Error Occured, Please Try Again");
+  } else {
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Order  Processing Started",
+      `Your Order Processing Has started, Your order will soon be ready for Pick Up. Thanks`
+    );
+  }
+  res.status(201).send(cooking);
 });
 module.exports = {
   adminAddrestaurant,
@@ -355,4 +382,5 @@ module.exports = {
   getRestaurantOrders,
   onAcceptOrder,
   onDeclineOrder,
+  onCookingOrder,
 };

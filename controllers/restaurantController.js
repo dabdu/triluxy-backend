@@ -383,7 +383,7 @@ const onOrderReady = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Error Occured, Please Try Again");
   } else {
-    const ridersByLocation = await TaxiDriver.find({
+    const ridersByLocation = await Rider.find({
       rideCity: rideCity,
       status: "Available",
     });

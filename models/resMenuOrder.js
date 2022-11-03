@@ -46,6 +46,10 @@ const deliverySchema = mongoose.Schema({
     type: locationSchema,
     required: true,
   },
+  deliveryCity: {
+    type: String,
+    required: true,
+  },
 });
 const resMenuOrderSchema = mongoose.Schema(
   {

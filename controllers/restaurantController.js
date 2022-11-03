@@ -296,6 +296,10 @@ const getUserOrders = asyncHandler(async (req, res) => {
   });
   res.status(200).json(orders);
 });
+const getAllOrders = asyncHandler(async (req, res) => {
+  const orders = await ResMenuOrder.find();
+  res.status(200).json(orders);
+});
 const getRestaurantOrders = asyncHandler(async (req, res) => {
   const orders = await ResMenuOrder.find({
     restaurantId: req.params.restaurantId,
@@ -424,4 +428,5 @@ module.exports = {
   onDeclineOrder,
   onCookingOrder,
   onOrderReady,
+  getAllOrders,
 };

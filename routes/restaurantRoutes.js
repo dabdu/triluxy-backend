@@ -20,6 +20,7 @@ const {
   onDeclineOrder,
   onCookingOrder,
   onOrderReady,
+  getAllOrders,
 } = require("../controllers/restaurantController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -38,6 +39,7 @@ router.route("/admin/decline").put(protect, onDeclineReservation);
 router.route("/admin/checkin").put(protect, onCheckedIn);
 router.route("/admin/checkout").put(protect, onCheckedOut);
 router.route("/orders/:id").get(protect, getUserOrders);
+router.route("/all-orders").get(protect, getAllOrders);
 router.route("/reservations/:id").get(protect, getUserReservations);
 router.route("/menu-items/:id").get(protect, getRestaurantMenuItems);
 // DIsh Order ROutes

@@ -4,6 +4,7 @@ const ResReservation = require("../models/resReservationModel");
 const ResMenuItem = require("../models/resMenuItemModel");
 const User = require("../models/userModel");
 const ResMenuOrder = require("../models/resMenuOrder");
+const Rider = require("../models/riderModel");
 const { sendMailFunction } = require("../functions/mailFunction");
 
 const adminAddrestaurant = asyncHandler(async (req, res) => {
@@ -363,6 +364,40 @@ const onCookingOrder = asyncHandler(async (req, res) => {
   }
   res.status(201).send(cooking);
 });
+const onOrderReady = asyncHandler(async (req, res) => {
+  const { id, userEmail, rideCity } = req.body;
+
+  if (!id || !userEmail || !rideCity) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+
+  const on_ready = await ResMenuOrder.findByIdAndUpdate(
+    id,
+    { status: "READY_FOR_PICKUP" },
+    {
+      new: true,
+    }
+  );
+  if (!on_ready) {
+    res.status(400);
+    throw new Error("Error Occured, Please Try Again");
+  } else {
+    const ridersByLocation = await TaxiDriver.find({
+      rideCity: rideCity,
+      status: "Available",
+    });
+    for (const val of ridersByLocation) {
+      const riders = await User.find({ _id: val.userId });
+      await sendMailFunction(
+        `${riders[0].email},`,
+        "Urgent, Confirm Dispatch Request",
+        "A Food Delivery Request in your locality, Quickly Login into your dashboard to check request Details and Accept, before anyone does. Thanks"
+      );
+    }
+  }
+  res.status(201).json(on_ready);
+});
 module.exports = {
   adminAddrestaurant,
   adminGetAllRestaurants,
@@ -383,4 +418,5 @@ module.exports = {
   onAcceptOrder,
   onDeclineOrder,
   onCookingOrder,
+  onOrderReady,
 };

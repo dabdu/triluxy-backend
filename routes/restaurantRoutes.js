@@ -43,6 +43,7 @@ router.route("/menu-items/:id").get(protect, getRestaurantMenuItems);
 router.route("/admin/order/accept").put(protect, onAcceptOrder);
 router.route("/admin/order/decline").put(protect, onDeclineOrder);
 router.route("/admin/order/cooking").put(protect, onCookingOrder);
+router.route("/admin/order/ready").put(protect, onCookingOrder);
 
 // Restaurant Admin Routes
 router

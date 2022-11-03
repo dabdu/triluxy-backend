@@ -395,6 +395,11 @@ const onOrderReady = asyncHandler(async (req, res) => {
         "A Food Delivery Request in your locality, Quickly Login into your dashboard to check request Details and Accept, before anyone does. Thanks"
       );
     }
+    await sendMailFunction(
+      `${req.body.userEmail}`,
+      "Order  Ready",
+      `Your Order Ready for Pickup awaiting nearest Delivery Man Confirmation, Your order will soon be Pick Up For Pick up. Thanks`
+    );
   }
   res.status(201).json(on_ready);
 });

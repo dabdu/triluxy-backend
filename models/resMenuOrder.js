@@ -50,6 +50,10 @@ const deliverySchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  deliveryFee: {
+    type: Number,
+    required: true,
+  },
 });
 const resMenuOrderSchema = mongoose.Schema(
   {

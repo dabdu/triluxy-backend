@@ -98,6 +98,7 @@ const resMenuOrderSchema = mongoose.Schema(
         "ACCEPT",
         "COOKING",
         "READY_FOR_PICKUP",
+        "DELIVERY_ACCEPTED",
         "PICKED_UP",
         "COMPLETED",
         "CANCEL",

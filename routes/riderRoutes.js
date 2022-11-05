@@ -4,12 +4,16 @@ const {
   getRiderByLocation,
   getRiderByUserId,
   onAcceptRequest,
+  onPickup,
+  onCompleted,
 } = require("../controllers/riderController");
 
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 router.route("/add-rider-details").post(protect, addRiderDeatils);
 router.route("/accept-request").put(protect, onAcceptRequest);
+router.route("/picked-up").put(protect, onPickup);
+router.route("/completed").put(protect, onCompleted);
 // router
 //   .route("/bookings/location/:city")
 //   .get(protect, getTaxiBookingsByLocation);

@@ -65,9 +65,67 @@ const onAcceptRequest = asyncHandler(async (req, res) => {
   }
   res.status(201).send(accept);
 });
+const onPickup = asyncHandler(async (req, res) => {
+  const { orderId, userId, restaurantName, restaurantUserId } = req.body;
+  const accept = await ResMenuOrder.findByIdAndUpdate(
+    orderId,
+    { status: "PICKED_UP" },
+    {
+      new: true,
+    }
+  );
+  if (!accept) {
+    res.status(400);
+    throw new Error("Error Occured!!!");
+  } else {
+    const user = await User.findById(userId);
+    await sendMailFunction(
+      `${user.email}`,
+      "Delivery Picked UP",
+      `The Dispatch Rider has Picked Up your Delivery from ${restaurantName}, awaiting His Delivery from the Restaurant to Your Location. Thanks`
+    );
+    const restaurant = await User.findById(restaurantUserId);
+    await sendMailFunction(
+      `${restaurant.email}`,
+      "Delivery Picked UP",
+      `Delivery Picked Up from your restaurant. Thanks`
+    );
+  }
+  res.status(201).send(accept);
+});
+const onCompleted = asyncHandler(async (req, res) => {
+  const { orderId, userId, restaurantName, restaurantUserId } = req.body;
+  const completed = await ResMenuOrder.findByIdAndUpdate(
+    orderId,
+    { status: "COMPLETED" },
+    {
+      new: true,
+    }
+  );
+  if (!completed) {
+    res.status(400);
+    throw new Error("Error Occured!!!");
+  } else {
+    const user = await User.findById(userId);
+    await sendMailFunction(
+      `${user.email}`,
+      "Dish Delivered",
+      `Your Order from ${restaurantName}, has been delivered to your location and has been recieved by you, Please don't forget to rate us 5 stars. Thanks`
+    );
+    const restaurant = await User.findById(restaurantUserId);
+    await sendMailFunction(
+      `${restaurant.email}`,
+      "Order Delivered",
+      `A Dispatch Rider has Delivered the Order from your restaurant, and has been recieved to the Customer. Thanks`
+    );
+  }
+  res.status(201).send(completed);
+});
 module.exports = {
   addRiderDeatils,
   getRiderByUserId,
   getRiderByLocation,
   onAcceptRequest,
+  onPickup,
+  onCompleted,
 };

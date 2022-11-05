@@ -3,11 +3,13 @@ const {
   addRiderDeatils,
   getRiderByLocation,
   getRiderByUserId,
+  onAcceptRequest,
 } = require("../controllers/riderController");
 
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 router.route("/add-rider-details").post(protect, addRiderDeatils);
+router.route("/accept-request").put(protect, onAcceptRequest);
 // router
 //   .route("/bookings/location/:city")
 //   .get(protect, getTaxiBookingsByLocation);

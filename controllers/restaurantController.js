@@ -272,6 +272,7 @@ const createOrder = asyncHandler(async (req, res) => {
     status,
     isPaid,
     paymentMode,
+    assignedRiderId: "",
   });
   if (!order) {
     res.status(400);

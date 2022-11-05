@@ -110,6 +110,9 @@ const resMenuOrderSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    assignedRiderId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

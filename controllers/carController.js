@@ -31,8 +31,7 @@ const addCarDetails = asyncHandler(async (req, res) => {
     !carImages ||
     !carDocuments ||
     !rideCity ||
-    !pricePerDay ||
-    !carSpecs
+    !pricePerDay
   ) {
     res.status(400);
     throw new Error("All Fields Must be fill");

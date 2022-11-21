@@ -48,7 +48,6 @@ const carSchema = mongoose.Schema(
     },
     carSpecs: {
       type: [String],
-      required: true,
     },
     carDesc: {
       type: String,

@@ -55,7 +55,7 @@ const carSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Available", "UnAvailable", "Suspended"],
+      enum: ["Available", "UnAvailable", "Suspended", "AwaitingApproval"],
     },
   },
   { timestamps: true }

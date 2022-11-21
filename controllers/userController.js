@@ -4,7 +4,15 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 const UserOtherInfo = require("../models/userOtherInfo");
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, phoneNumber, userRole, userStatus } = req.body;
+  const {
+    name,
+    email,
+    password,
+    phoneNumber,
+    userRole,
+    userStatus,
+    profileImg,
+  } = req.body;
 
   if (
     !name ||
@@ -12,6 +20,7 @@ const registerUser = asyncHandler(async (req, res) => {
     !password ||
     !phoneNumber ||
     !userRole ||
+    !profileImg ||
     !userStatus
   ) {
     res.status(400);
@@ -34,8 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
     userRole,
     userStatus,
     password: hashedpassword,
-    profileImg:
-      "https://stockphoto.com/samples/OTM0ODMxNjUwMDAxMWY1YmNmYjBlZA==/MjIxMWY1YmNmYjBlZA==/male-profile-icon-white-on-the-blue-background.jpg",
+    profileImg,
   });
   if (user) {
     res.status(201).json({

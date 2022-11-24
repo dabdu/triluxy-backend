@@ -10,14 +10,12 @@ const addCarDetails = asyncHandler(async (req, res) => {
     carName,
     carModel,
     carColor,
-    carImages,
-    carDocuments,
+    carImage,
     pricePerDay,
     plateNumber,
     plateNumberImg,
     rideCity,
     rideState,
-    carSpecs,
     carDesc,
   } = req.body;
 
@@ -28,8 +26,7 @@ const addCarDetails = asyncHandler(async (req, res) => {
     !carColor ||
     !plateNumber ||
     !plateNumberImg ||
-    !carImages ||
-    !carDocuments ||
+    !carImage ||
     !rideCity ||
     !pricePerDay
   ) {
@@ -41,14 +38,12 @@ const addCarDetails = asyncHandler(async (req, res) => {
     carName,
     carModel,
     carColor,
-    carImages,
-    carDocuments,
+    carImage,
     pricePerDay,
     plateNumber,
     plateNumberImg,
     rideCity,
     rideState,
-    carSpecs,
     carDesc,
     status: "Available",
   });

@@ -19,12 +19,8 @@ const carSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    carImages: {
-      type: [String],
-      required: true,
-    },
-    carDocuments: {
-      type: [String],
+    carImage: {
+      type: String,
       required: true,
     },
     pricePerDay: {
@@ -45,9 +41,6 @@ const carSchema = mongoose.Schema(
     },
     rideState: {
       type: String,
-    },
-    carSpecs: {
-      type: [String],
     },
     carDesc: {
       type: String,

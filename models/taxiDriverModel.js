@@ -40,10 +40,6 @@ const taxiDriverSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    carDocuments: {
-      type: [String],
-      required: true,
-    },
     rideCity: {
       type: String,
       required: true,

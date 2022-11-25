@@ -156,25 +156,24 @@ const addtaxiDriverDetails = asyncHandler(async (req, res) => {
     carImage,
     licenseNumber,
     licenseImg,
-    carDocuments,
     rideCity,
     rideState,
     carDesc,
     status: "Available",
   });
-  if (!taxi_driver) {
-    res.status(500);
-    throw new Error("Error Occured, Please Try Again");
-  } else {
-    await User.findByIdAndUpdate(
-      userId,
-      { userStatus: "activeTaxiDriver" },
-      {
-        new: true,
-      }
-    );
-    res.status(201).json(taxi_driver);
-  }
+  // if (!taxi_driver) {
+  //   res.status(500);
+  //   throw new Error("Error Occured, Please Try Again");
+  // } else {
+  //   await User.findByIdAndUpdate(
+  //     userId,
+  //     { userStatus: "activeTaxiDriver" },
+  //     {
+  //       new: true,
+  //     }
+  //   );
+  res.status(201).json(taxi_driver);
+  // }
 });
 const getTaxiById = asyncHandler(async (req, res) => {
   const taxi = await TaxiDriver.findById(req.params.id);

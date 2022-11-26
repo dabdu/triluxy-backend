@@ -123,7 +123,6 @@ const addtaxiDriverDetails = asyncHandler(async (req, res) => {
     carImage,
     licenseNumber,
     licenseImg,
-    carDocuments,
     rideCity,
     rideState,
     carDesc,
@@ -139,7 +138,6 @@ const addtaxiDriverDetails = asyncHandler(async (req, res) => {
     !carImage ||
     !licenseNumber ||
     !licenseImg ||
-    !carDocuments ||
     !rideCity ||
     !rideState
   ) {

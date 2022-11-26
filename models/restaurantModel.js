@@ -15,9 +15,6 @@ const restaurantSchema = mongoose.Schema(
       type: String,
       required: [true, "Image Field is Required"],
     },
-    images: {
-      type: [String],
-    },
     address: {
       type: String,
       required: [true, "Address Field is Required"],
@@ -47,9 +44,6 @@ const restaurantSchema = mongoose.Schema(
     description: {
       type: String,
       required: [true, "About the Restaurant is Required"],
-    },
-    facilities: {
-      type: [String],
     },
     terms: {
       type: String,

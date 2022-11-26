@@ -11,7 +11,6 @@ const adminAddrestaurant = asyncHandler(async (req, res) => {
   const {
     restaurantName,
     fImg,
-    images,
     address,
     state,
     town,
@@ -20,7 +19,6 @@ const adminAddrestaurant = asyncHandler(async (req, res) => {
     lat,
     lng,
     description,
-    facilities,
     terms,
   } = req.body;
 
@@ -41,7 +39,6 @@ const adminAddrestaurant = asyncHandler(async (req, res) => {
     user: req.user.id,
     restaurantName,
     fImg,
-    images,
     address,
     state,
     town,
@@ -50,7 +47,6 @@ const adminAddrestaurant = asyncHandler(async (req, res) => {
     lat,
     lng,
     description,
-    facilities,
     terms,
   });
   res.status(201).json(restaurant);

@@ -20,6 +20,7 @@ const adminAddrestaurant = asyncHandler(async (req, res) => {
     lng,
     description,
     terms,
+    user,
   } = req.body;
 
   if (
@@ -30,13 +31,13 @@ const adminAddrestaurant = asyncHandler(async (req, res) => {
     !openDaysEnd ||
     !state ||
     !description ||
-    !facilities
+    !user
   ) {
     res.status(400);
     throw new Error("All Fields Must be fill");
   }
   const restaurant = await Restaurant.create({
-    user: req.user.id,
+    user,
     restaurantName,
     fImg,
     address,

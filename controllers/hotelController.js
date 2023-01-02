@@ -15,49 +15,31 @@ const createHotel = asyncHandler(async (req, res) => {
   const {
     hotelName,
     fImg,
-    images,
     address,
     state,
     town,
     lat,
     lng,
     description,
-    facilities,
     terms,
   } = req.body;
 
-  if (!hotelName || !fImg || !town || !state || !description || !facilities) {
+  if (!hotelName || !fImg || !town || !state || !description) {
     res.status(400);
     throw new Error("All Fields Must be fill");
-  }
-  const hotelExist = await Hotel.findOne({ user: req.user.id });
-  if (hotelExist) {
-    res.status(400);
-    throw new Error("Hotel Already Exist");
   }
   const hotel = await Hotel.create({
     user: req.user.id,
     hotelName,
     fImg,
-    images,
     address,
     state,
     town,
     lat,
     lng,
     description,
-    facilities,
     terms,
   });
-  if (hotel) {
-    await User.findByIdAndUpdate(
-      req.user.id,
-      { userStatus: "activeHotelAdmin" },
-      {
-        new: true,
-      }
-    );
-  }
   res.status(201).json(hotel);
 });
 const adminAddHotel = asyncHandler(async (req, res) => {

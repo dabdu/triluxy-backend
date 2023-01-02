@@ -15,9 +15,6 @@ const hotelSchema = mongoose.Schema(
       type: String,
       required: [true, "Image Field is Required"],
     },
-    images: {
-      type: [String],
-    },
     address: {
       type: String,
       required: [true, "Address Field is Required"],
@@ -39,9 +36,6 @@ const hotelSchema = mongoose.Schema(
     description: {
       type: String,
       required: [true, "About the Hotel is Required"],
-    },
-    facilities: {
-      type: [String],
     },
     terms: {
       type: String,

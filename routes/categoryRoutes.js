@@ -12,7 +12,7 @@ const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 router.route("/").get(protect, getCategories).post(protect, createCategory);
-router.route("/allcategories/:id").get(getAllCategories);
+router.route("/hotel/categories/:hotel_id").get(getAllCategories);
 router.route("/add-room").post(protect, createRoom);
 router.route("/:id/rooms").get(protect, getCatRooms);
 router.route("/available-rooms/:id").get(protect, getAvailableRooms);

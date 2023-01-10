@@ -35,10 +35,11 @@ const createHotel = asyncHandler(async (req, res) => {
     address,
     state,
     town,
-    lat,
-    lng,
+    lat: "",
+    lng: "",
     description,
     terms,
+    status: "Active",
   });
   res.status(201).json(hotel);
 });
@@ -50,8 +51,6 @@ const adminAddHotel = asyncHandler(async (req, res) => {
     address,
     state,
     town,
-    lat,
-    lng,
     description,
     facilities,
     terms,
@@ -69,11 +68,12 @@ const adminAddHotel = asyncHandler(async (req, res) => {
     address,
     state,
     town,
-    lat,
-    lng,
+    lat: "",
+    lng: "",
     description,
     facilities,
     terms,
+    status: "Active",
   });
   res.status(201).json(hotel);
 });

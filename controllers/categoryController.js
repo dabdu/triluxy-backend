@@ -7,7 +7,7 @@ const getCategories = asyncHandler(async (req, res) => {
   res.status(200).json(hotels);
 });
 const getAllCategories = asyncHandler(async (req, res) => {
-  const categories = await Category.find({ hotel: req.params.id });
+  const categories = await Category.find({ hotel: req.params.hotel_id });
   res.status(200).json(categories);
 });
 const createCategory = asyncHandler(async (req, res) => {

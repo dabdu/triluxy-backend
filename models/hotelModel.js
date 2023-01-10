@@ -40,6 +40,9 @@ const hotelSchema = mongoose.Schema(
     terms: {
       type: String,
     },
+    status: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

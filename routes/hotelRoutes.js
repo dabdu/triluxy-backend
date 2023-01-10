@@ -15,6 +15,7 @@ const {
   confirmBooking,
   setCheckedInReservations,
   setCheckedOutReservations,
+  getHotelById,
 } = require("../controllers/hotelController");
 const { protect } = require("../middleware/authMiddleware");
 const { mailFunction } = require("../middleware/mailSender");
@@ -24,6 +25,8 @@ router.route("/").get(protect, getHotel).post(protect, createHotel);
 router.route("/mail").get(mailFunction);
 router.route("/allhotels").get(getAllHotels);
 router.route("/admin/add-hotel").post(protect, adminAddHotel);
+
+router.route("/hotel/:hotel_id").get(protect, getHotelById);
 // router.route("/:id").put(protect, updateGoal).delete(protect, deleteGoal);
 
 // ALl Hotel Reveration Routes

@@ -7,6 +7,10 @@ const getHotel = asyncHandler(async (req, res) => {
   const hotel = await Hotel.find({ user: req.user.id });
   res.status(200).json(hotel);
 });
+const getHotelById = asyncHandler(async (req, res) => {
+  const hotel = await Hotel.findById(req.params.hotel_id);
+  res.status(200).json(hotel);
+});
 const getAllHotels = asyncHandler(async (req, res) => {
   const hotels = await Hotel.find();
   res.status(200).json(hotels);
@@ -202,6 +206,7 @@ const confirmBooking = asyncHandler(async (req, res) => {
 
 module.exports = {
   getHotel,
+  getHotelById,
   createHotel,
   adminAddHotel,
   getAllHotels,

@@ -215,7 +215,7 @@ const addNewReservation = asyncHandler(async (req, res) => {
   await sendMailFunction(
     `${userEmail}`,
     "Reservation Successful",
-    `Your Payment and Reservation was Successful, Checking In on ${checkInDate} to ${checkOutDate}, which is ${nights}. Please Exercise Patience while we confirm your reservation. Thanks`
+    `Your Payment and Reservation was Successful, Checking In on ${checkInDate} to ${checkOutDate}, which is for ${nights} nights. Please Exercise Patience while we confirm your reservation. Thanks`
   );
   res.status(201).json(reservation);
 });

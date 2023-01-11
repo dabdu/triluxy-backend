@@ -7,6 +7,11 @@ const reservationSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
+    hotelAdminId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
     hotelId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Hotel = require("../models/hotelModel");
 const Reservation = require("../models/reservationModel");
 const Room = require("../models/roomModel");
+const { sendMailFunction } = require("../functions/mailFunction");
 const getHotel = asyncHandler(async (req, res) => {
   const hotel = await Hotel.find({ user: req.user.id });
   res.status(200).json(hotel);
@@ -89,6 +90,22 @@ const getUserReservations = asyncHandler(async (req, res) => {
   const reservations = await Reservation.find({ userId: req.params.id });
   res.status(200).json(reservations);
 });
+const getReservationByHotelId = asyncHandler(async (req, res) => {
+  const reservations = await Reservation.find({
+    userId: req.params.hotel_id,
+  }).sort({
+    createdAt: -1,
+  });
+  res.status(200).json(reservations);
+});
+const getReservationByHotelAdminId = asyncHandler(async (req, res) => {
+  const reservations = await Reservation.find({
+    hotelAdminId: req.params.user_id,
+  }).sort({
+    createdAt: -1,
+  });
+  res.status(200).json(reservations);
+});
 const getAllReservations = asyncHandler(async (req, res) => {
   const reservations = await Reservation.find().sort({
     createdAt: -1,
@@ -157,16 +174,20 @@ const addNewReservation = asyncHandler(async (req, res) => {
     checkOutDate,
     isPaid,
     status,
+    hotelAdminId,
+    userEmail,
   } = req.body;
 
   if (
     !hotelId ||
     !categoryId ||
+    !hotelAdminId ||
     !transId ||
     !nights ||
     !checkInDate ||
     !checkOutDate ||
-    !status
+    !status ||
+    !userEmail
   ) {
     res.status(400);
     throw new Error("All Fields Must be fill");
@@ -174,6 +195,7 @@ const addNewReservation = asyncHandler(async (req, res) => {
   const reservation = await Reservation.create({
     userId: req.user.id,
     hotelId,
+    hotelAdminId,
     categoryId,
     transId,
     nights,
@@ -184,6 +206,17 @@ const addNewReservation = asyncHandler(async (req, res) => {
     status,
     assignedRoomId: null,
   });
+  const hotel_admin = await User.findById(hotelAdminId);
+  await sendMailFunction(
+    `${hotel_admin.email}`,
+    "Urgent, Confirm Reservation",
+    `A User Just reserve your Hotel, from ${checkInDate} to ${checkOutDate}, which is ${nights}. Please Login to confirmed user's Reservation. Thanks`
+  );
+  await sendMailFunction(
+    `${userEmail}`,
+    "Reservation Successful",
+    `Your Payment and Reservation was Successful, Checking In on ${checkInDate} to ${checkOutDate}, which is ${nights}. Please Exercise Patience while we confirm your reservation. Thanks`
+  );
   res.status(201).json(reservation);
 });
 const confirmBooking = asyncHandler(async (req, res) => {
@@ -215,6 +248,8 @@ module.exports = {
   createHotel,
   adminAddHotel,
   getAllHotels,
+  getReservationByHotelId,
+  getReservationByHotelAdminId,
   getUserReservations,
   addNewReservation,
   getAllReservations,

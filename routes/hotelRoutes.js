@@ -17,6 +17,7 @@ const {
   setCheckedOutReservations,
   getHotelById,
   getHotelBySearchedTown,
+  getReservationByHotelId,
 } = require("../controllers/hotelController");
 const { protect } = require("../middleware/authMiddleware");
 const { mailFunction } = require("../middleware/mailSender");
@@ -33,6 +34,12 @@ router.route("/search/:town").get(protect, getHotelBySearchedTown);
 
 // ALl Hotel Reveration Routes
 router.route("/reservations").post(protect, addNewReservation);
+router
+  .route("/reservations/hotel/:hotel_id")
+  .get(protect, getReservationByHotelId);
+router
+  .route("/reservations/admin/:user_id")
+  .get(protect, getReservationByHotelId);
 router.route("/reservations/:id").get(protect, getUserReservations);
 router.route("/all-reservations").get(protect, getAllReservations);
 router.route("/bookings").get(protect, getBookedReservations);

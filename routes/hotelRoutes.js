@@ -18,6 +18,7 @@ const {
   getHotelById,
   getHotelBySearchedTown,
   getReservationByHotelId,
+  getReservationByHotelAdminId,
 } = require("../controllers/hotelController");
 const { protect } = require("../middleware/authMiddleware");
 const { mailFunction } = require("../middleware/mailSender");
@@ -39,7 +40,7 @@ router
   .get(protect, getReservationByHotelId);
 router
   .route("/reservations/admin/:user_id")
-  .get(protect, getReservationByHotelId);
+  .get(protect, getReservationByHotelAdminId);
 router.route("/reservations/:id").get(protect, getUserReservations);
 router.route("/all-reservations").get(protect, getAllReservations);
 router.route("/bookings").get(protect, getBookedReservations);

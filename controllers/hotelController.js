@@ -219,6 +219,63 @@ const addNewReservation = asyncHandler(async (req, res) => {
   );
   res.status(201).json(reservation);
 });
+
+const onConfirmReservation = asyncHandler(async (req, res) => {
+  const {
+    reserveId,
+    hotelAdminEmail,
+    userEmail,
+    categoryName,
+    hotelName,
+    checkInDate,
+  } = req.body;
+  const confirmed = await Reservation.findByIdAndUpdate(
+    reserveId,
+    { status: "CONFIRMED" },
+    {
+      new: true,
+    }
+  );
+  await sendMailFunction(
+    `${hotelAdminEmail}`,
+    "Reservation Confirmed",
+    `You have Confirmed Your User's Reservation. Thanks`
+  );
+  await sendMailFunction(
+    `${userEmail}`,
+    "Reservation Confirmed",
+    `Your Reservation for ${categoryName} at ${hotelName} was Confirmed, we can't wait to see you on ${checkInDate}. Thanks`
+  );
+  res.status(201).json(confirmed);
+});
+const onCancelReservation = asyncHandler(async (req, res) => {
+  const {
+    reserveId,
+    hotelAdminEmail,
+    userEmail,
+    categoryName,
+    hotelName,
+    checkInDate,
+  } = req.body;
+  const canceled = await Reservation.findByIdAndUpdate(
+    reserveId,
+    { status: "CANCEL" },
+    {
+      new: true,
+    }
+  );
+  await sendMailFunction(
+    `${hotelAdminEmail}`,
+    "Reservation CANCEL",
+    `You have CANCEL Reservation By a Customer. Thanks`
+  );
+  await sendMailFunction(
+    `${userEmail}`,
+    "Reservation CANCEL",
+    `We are sorry to inform you that Your Reservation for ${categoryName} at ${hotelName} was CANCEL Due Some Uniavoidable Circumstances, we are sorry for what ever inconvinience this might Caused you, You will be contacted on how and when your Payment will be refund. , we can't wait to see you on ${checkInDate}. Thanks`
+  );
+  res.status(201).json(canceled);
+});
 const confirmBooking = asyncHandler(async (req, res) => {
   const confirmed = await Reservation.findByIdAndUpdate(
     req.body.reserveId,
@@ -261,4 +318,6 @@ module.exports = {
   confirmBooking,
   setCheckedInReservations,
   setCheckedOutReservations,
+  onConfirmReservation,
+  onCancelReservation,
 };

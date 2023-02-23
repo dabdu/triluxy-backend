@@ -276,6 +276,85 @@ const onCancelReservation = asyncHandler(async (req, res) => {
   );
   res.status(201).json(canceled);
 });
+
+const onCheckedInReservation = asyncHandler(async (req, res) => {
+  const {
+    reserveId,
+    hotelAdminEmail,
+    userEmail,
+    categoryName,
+    hotelName,
+    checkInDate,
+  } = req.body;
+  if (
+    !reserveId ||
+    !hotelAdminEmail ||
+    !userEmail ||
+    !categoryName ||
+    !hotelName ||
+    !checkInDate
+  ) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const checkedin = await Reservation.findByIdAndUpdate(
+    reserveId,
+    { status: "CHECKEDIN" },
+    {
+      new: true,
+    }
+  );
+  await sendMailFunction(
+    `${hotelAdminEmail}`,
+    "User Checked In",
+    `User Checked In Successfully. Thanks`
+  );
+  await sendMailFunction(
+    `${userEmail}`,
+    "Reservation Checked In",
+    `You have been Checked in to ${categoryName} at ${hotelName} You Booked Earlier, We hope you enjoy your Stay with Us. Thank you`
+  );
+  res.status(201).json(checkedin);
+});
+const onCheckedOutReservation = asyncHandler(async (req, res) => {
+  const {
+    reserveId,
+    hotelAdminEmail,
+    userEmail,
+    categoryName,
+    hotelName,
+    checkInDate,
+  } = req.body;
+  if (
+    !reserveId ||
+    !hotelAdminEmail ||
+    !userEmail ||
+    !categoryName ||
+    !hotelName ||
+    !checkInDate
+  ) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const checkedout = await Reservation.findByIdAndUpdate(
+    reserveId,
+    { status: "CHECKEDOUT" },
+    {
+      new: true,
+    }
+  );
+  await sendMailFunction(
+    `${hotelAdminEmail}`,
+    "User Checked Out",
+    `User Checked Out Successfully. Thanks`
+  );
+  await sendMailFunction(
+    `${userEmail}`,
+    "Reservation Checked Out",
+    `You have been Checked Out of ${categoryName} which you Checked In on ${checkInDate} at ${hotelName} , We hope you enjoyed your Stay with Us and Hope to see you soon. Thank you`
+  );
+  res.status(201).json(checkedout);
+});
 const confirmBooking = asyncHandler(async (req, res) => {
   const confirmed = await Reservation.findByIdAndUpdate(
     req.body.reserveId,
@@ -320,4 +399,6 @@ module.exports = {
   setCheckedOutReservations,
   onConfirmReservation,
   onCancelReservation,
+  onCheckedInReservation,
+  onCheckedOutReservation,
 };

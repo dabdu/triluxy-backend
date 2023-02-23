@@ -21,6 +21,8 @@ const {
   getReservationByHotelAdminId,
   onConfirmReservation,
   onCancelReservation,
+  onCheckedInReservation,
+  onCheckedOutReservation,
 } = require("../controllers/hotelController");
 const { protect } = require("../middleware/authMiddleware");
 const { mailFunction } = require("../middleware/mailSender");
@@ -61,4 +63,6 @@ router
 router.route("/bookings/cancel").get(protect, getCancelReservations);
 router.route("/reservations/confirm").put(protect, onConfirmReservation);
 router.route("/reservations/cancel").put(protect, onCancelReservation);
+router.route("/reservations/checkin").put(protect, onCheckedInReservation);
+router.route("/reservations/checkout").put(protect, onCheckedOutReservation);
 module.exports = router;

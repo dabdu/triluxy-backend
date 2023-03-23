@@ -88,7 +88,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const createUserOtherInfo = asyncHandler(async (req, res) => {
   const { gender, address, state, town, zipCode } = req.body;
 
-  if (!gender || !address || !state || !town || !zipCode) {
+  if (!gender || !address || !state || !town) {
     res.status(400);
     throw new Error("All Fields Must be fill");
   }
@@ -97,7 +97,6 @@ const createUserOtherInfo = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User Info Already Exist");
   }
-
   // Create User Info
   const userInfo = await UserOtherInfo.create({
     user: req.user.id,
@@ -113,6 +112,57 @@ const createUserOtherInfo = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User Info Couldn't be added");
   }
+});
+// UPdating Personal Info
+const onUpdatePersonalInfo = asyncHandler(async (req, res) => {
+  const { name, email, phoneNumber, userId } = req.body;
+
+  if (!name || !email || !phoneNumber || !userId) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { name, email, phoneNumber },
+    {
+      new: true,
+    }
+  );
+  res.status(201).send(user);
+});
+// UPdating User Info
+const onUpdateUserInfo = asyncHandler(async (req, res) => {
+  const { gender, address, state, town, zipCode, otherInfoID } = req.body;
+
+  if (!gender || !address || !state || !town) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const userInfo = await UserOtherInfo.findByIdAndUpdate(
+    otherInfoID,
+    { gender, address, state, town, zipCode },
+    {
+      new: true,
+    }
+  );
+  res.status(201).send(userInfo);
+});
+// Upating Profile Image
+const onUpdateProfileImg = asyncHandler(async (req, res) => {
+  const { userId, profileImg } = req.body;
+
+  if (!userId || !profileImg) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { profileImg },
+    {
+      new: true,
+    }
+  );
+  res.status(201).send(user);
 });
 const getOtherInfo = asyncHandler(async (req, res) => {
   const userInfo = await UserOtherInfo.findOne({ user: req.user.id });
@@ -146,4 +196,7 @@ module.exports = {
   createUserOtherInfo,
   getOtherInfo,
   getUserInfo,
+  onUpdatePersonalInfo,
+  onUpdateProfileImg,
+  onUpdateUserInfo,
 };

@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Wallet = require("../models/walletModel");
+const Notification = require("../models/notificationModel");
 const getUserTransactions = asyncHandler(async (req, res) => {
   const transactions = await Wallet.find({ userId: req.user.id }).sort({
     createdAt: -1,
@@ -15,6 +16,9 @@ const createNewTransaction = asyncHandler(async (req, res) => {
     transactionRef,
     paymentMode,
     userId,
+    notDesc,
+    notTitle,
+    notType,
   } = req.body;
 
   if (
@@ -38,7 +42,14 @@ const createNewTransaction = asyncHandler(async (req, res) => {
     transactionRef,
     paymentMode,
   });
-  res.status(201).json(transaction);
+  const notification = await Notification.create({
+    userId,
+    desc: notDesc,
+    title: notTitle,
+    type: notType,
+    status: "unread",
+  });
+  res.status(201).json(transaction, notification);
 });
 
 module.exports = {

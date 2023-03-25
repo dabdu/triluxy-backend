@@ -11,8 +11,15 @@ const getAllCategories = asyncHandler(async (req, res) => {
   res.status(200).json(categories);
 });
 const createCategory = asyncHandler(async (req, res) => {
-  const { categoryName, price, maxPersons, features, description, hotel } =
-    req.body;
+  const {
+    categoryName,
+    price,
+    maxPersons,
+    features,
+    description,
+    discountedPrice,
+    hotel,
+  } = req.body;
 
   if (!categoryName || !price || !maxPersons) {
     res.status(400);
@@ -22,6 +29,7 @@ const createCategory = asyncHandler(async (req, res) => {
     hotel,
     categoryName,
     price,
+    discountedPrice,
     maxPersons,
     features,
     description,

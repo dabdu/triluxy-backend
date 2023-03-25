@@ -7,6 +7,6 @@ const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 router.route("/:userId").get(protect, getNotificationsByUserId);
-router.route("/:notificationId").put(protect, onReadNotification);
+router.route("/:notificationId").put(onReadNotification);
 
 module.exports = router;

@@ -42,14 +42,14 @@ const createNewTransaction = asyncHandler(async (req, res) => {
     transactionRef,
     paymentMode,
   });
-  const notification = await Notification.create({
+  await Notification.create({
     userId,
     desc: notDesc,
     title: notTitle,
     type: notType,
     status: "unread",
   });
-  res.status(201).json(transaction, notification);
+  res.status(201).json(transaction);
 });
 
 module.exports = {

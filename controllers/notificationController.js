@@ -16,5 +16,12 @@ const onReadNotification = asyncHandler(async (req, res) => {
   );
   res.status(201).send(read);
 });
+const unReadCount = asyncHandler(async (req, res) => {
+  const counts = await Notification.count({
+    id: req.params.notificationId,
+    status: "unread",
+  });
+  res.status(200).json(counts);
+});
 
-module.exports = { getNotificationsByUserId, onReadNotification };
+module.exports = { getNotificationsByUserId, onReadNotification, unReadCount };

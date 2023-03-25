@@ -15,12 +15,16 @@ const categorySchema = mongoose.Schema(
       type: Number,
       required: [true, "Price Field is Required"],
     },
+    discountedPrice: {
+      type: Number,
+      required: [true, "Price Field is Required"],
+    },
     maxPersons: {
       type: Number,
       required: [true, "Number of Persons is Required"],
     },
     features: {
-      type: [String],
+      type: String,
     },
     description: {
       type: String,

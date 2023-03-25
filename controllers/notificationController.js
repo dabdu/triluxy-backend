@@ -18,7 +18,7 @@ const onReadNotification = asyncHandler(async (req, res) => {
 });
 const unReadCount = asyncHandler(async (req, res) => {
   const counts = await Notification.count({
-    id: req.params.notificationId,
+    userId: req.params.userId,
     status: "unread",
   });
   res.status(200).json(counts);

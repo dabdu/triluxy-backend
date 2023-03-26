@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Hotel = require("../models/hotelModel");
 const Reservation = require("../models/reservationModel");
 const Room = require("../models/roomModel");
+const Notification = require("../models/notificationModel");
 const { sendMailFunction } = require("../functions/mailFunction");
 const getHotel = asyncHandler(async (req, res) => {
   const hotel = await Hotel.find({ user: req.user.id });
@@ -207,16 +208,21 @@ const addNewReservation = asyncHandler(async (req, res) => {
     assignedRoomId: null,
   });
   const hotel_admin = await User.findById(hotelAdminId);
+  const userContent = `Your Payment and Reservation was Successful, Checking In on ${checkInDate} to ${checkOutDate}, which is for ${nights} nights. Please Exercise Patience while we confirm your reservation. You will an email once our processes is done Thanks`;
+
+  await Notification.create({
+    userId: req.user.id,
+    desc: userContent,
+    title: "Successful Reservation",
+    type: "Hotel",
+    status: "unread",
+  });
   await sendMailFunction(
     `${hotel_admin.email}`,
     "Urgent, Confirm Reservation",
     `A User Just reserve your Hotel, from ${checkInDate} to ${checkOutDate}, which is ${nights}. Please Login to confirmed user's Reservation. Thanks`
   );
-  await sendMailFunction(
-    `${userEmail}`,
-    "Reservation Successful",
-    `Your Payment and Reservation was Successful, Checking In on ${checkInDate} to ${checkOutDate}, which is for ${nights} nights. Please Exercise Patience while we confirm your reservation. Thanks`
-  );
+  await sendMailFunction(`${userEmail}`, "Successful Reservation", userContent);
   res.status(201).json(reservation);
 });
 

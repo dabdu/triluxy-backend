@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const Car = require("../models/carModel");
 const User = require("../models/userModel");
+const Notification = require("../models/notificationModel");
+
 const CarBooking = require("../models/carBookingModel");
 const { sendMailFunction } = require("../functions/mailFunction");
 
@@ -133,6 +135,13 @@ const carBooking = asyncHandler(async (req, res) => {
   if (!book) {
     return;
   } else {
+    await Notification.create({
+      userId: userId,
+      desc: "Your Car Payment and Booking was successful, Please await the our mail as the car owner confirms your booking. Thank you for using of service.",
+      title: "Successful Booking",
+      type: "Car",
+      status: "unread",
+    });
     const car_owner = await User.findById(carOwnerId);
     await sendMailFunction(
       `${car_owner.email}`,

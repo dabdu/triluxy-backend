@@ -45,6 +45,9 @@ const carSchema = mongoose.Schema(
     carDesc: {
       type: String,
     },
+    carOtherImages: {
+      type: [String],
+    },
     status: {
       type: String,
       enum: ["Available", "UnAvailable", "Suspended", "AwaitingApproval"],

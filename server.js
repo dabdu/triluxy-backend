@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/user", require("./routes/userRoutes"));
+app.use("/api/flight", require("./routes/flightRoutes"));
 app.use("/api/hotel", require("./routes/hotelRoutes"));
 app.use("/api/category", require("./routes/categoryRoutes"));
 app.use("/api/restaurant", require("./routes/restaurantRoutes"));

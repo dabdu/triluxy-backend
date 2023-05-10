@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const User = require("../models/userModel");
 const FlightBooking = require("../models/flightBookingModel");
+const FlightTicket = require("../models/flightTicketModel");
 const Notification = require("../models/notificationModel");
 const { sendMailFunction } = require("../functions/mailFunction");
 const addNewBooking = asyncHandler(async (req, res) => {
@@ -54,4 +54,20 @@ const addNewBooking = asyncHandler(async (req, res) => {
   );
   res.status(201).json(booking);
 });
-module.exports = { addNewBooking };
+const ticketIssued = asyncHandler(async (req, res) => {
+  var eventPayload = req.body;
+
+  await sendMailFunction(
+    `triluxyapp@gmail.com`,
+    "Flight Issued",
+    `Dear Admin, Ticket has been issued to a customer, Ticket Ref Number ${eventPayload.reference}`
+  );
+  await FlightBooking.create({
+    ticketDetails: JSON.stringify(eventPayload),
+    ticketRefID: eventPayload.reference,
+    status: "Issued",
+  });
+  res.status(201).json("Successful");
+});
+
+module.exports = { addNewBooking, ticketIssued };

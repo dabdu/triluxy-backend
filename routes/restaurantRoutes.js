@@ -21,6 +21,7 @@ const {
   onCookingOrder,
   onOrderReady,
   getAllOrders,
+  getDishByLocation,
 } = require("../controllers/restaurantController");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -42,6 +43,7 @@ router.route("/orders/:id").get(protect, getUserOrders);
 router.route("/all/orders").get(protect, getAllOrders);
 router.route("/reservations/:id").get(protect, getUserReservations);
 router.route("/menu-items/:id").get(protect, getRestaurantMenuItems);
+router.route("/dishes/:location").get(protect, getDishByLocation);
 // DIsh Order ROutes
 router.route("/admin/order/accept").put(protect, onAcceptOrder);
 router.route("/admin/order/decline").put(protect, onDeclineOrder);

@@ -203,11 +203,19 @@ const addMenuItem = asyncHandler(async (req, res) => {
     menuImg,
     menuType,
     price,
+    location,
     discountedPrice,
     description,
   } = req.body;
 
-  if (!restaurantId || !price || !menuName || !menuImg || !menuType) {
+  if (
+    !restaurantId ||
+    !price ||
+    !menuName ||
+    !menuImg ||
+    !menuType ||
+    !location
+  ) {
     res.status(400);
     throw new Error("All Fields Must be fill");
   }
@@ -219,8 +227,17 @@ const addMenuItem = asyncHandler(async (req, res) => {
     price,
     discountedPrice,
     description,
+    location,
   });
   res.status(201).json(menu_item);
+});
+const getDishByLocation = asyncHandler(async (req, res) => {
+  const menu_items = await ResMenuItem.find({
+    location: req.params.location,
+  }).sort({
+    createdAt: -1,
+  });
+  res.status(200).json(menu_items);
 });
 const getRestaurantMenuItems = asyncHandler(async (req, res) => {
   const menu_items = await ResMenuItem.find({
@@ -427,4 +444,5 @@ module.exports = {
   onCookingOrder,
   onOrderReady,
   getAllOrders,
+  getDishByLocation,
 };

@@ -30,6 +30,10 @@ const resMenuItemSchema = mongoose.Schema(
     description: {
       type: String,
     },
+    location: {
+      type: String,
+      required: true,
+    },
     status: {
       type: String,
       required: [true, "Status Field is Required"],

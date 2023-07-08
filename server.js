@@ -12,7 +12,7 @@ const app = express();
 // Middlewares
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://triluxy-web.vercel.app/"],
+    origin: ["http://localhost:3000"],
     credentials: true,
   })
 );
@@ -29,6 +29,9 @@ app.use("/api/taxi", require("./routes/taxiRoutes"));
 app.use("/api/car", require("./routes/carRoutes"));
 app.use("/api/rider", require("./routes/riderRoutes"));
 app.use("/api/notifications", require("./routes/notificationRoutes"));
+
+// Admin ROutes
+app.use("/api/admin", require("./routes/adminRoutes"));
 
 app.use(errorHandler);
 app.listen(port, () => console.log(`Server started on port ${port}`));

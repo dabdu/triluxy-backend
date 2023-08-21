@@ -4,6 +4,32 @@ const Restaurant = require("../../models/restaurantModel");
 const ResReservation = require("../../models/resReservationModel");
 const ResMenuOrder = require("../../models/resMenuOrder");
 const ResMenuItem = require("../../models/resMenuItemModel");
+const { primaryEmail } = require("../../functions/data");
+const { sendMailFunction } = require("../../functions/mailFunction");
+const onApproveResAdmin = asyncHandler(async (req, res) => {
+  const { userID } = req.body;
+
+  if (!userID) {
+    res.status(400);
+    throw new Error("Inavlid User");
+  }
+  const user = await User.findByIdAndUpdate(
+    userID,
+    { userStatus: "active" },
+    {
+      new: true,
+    }
+  );
+  // send Login credential to USer primaryEmail
+  const splited = user?.name?.split(" ");
+  const password = splited[0].toLowerCase() + "20";
+  await sendMailFunction(
+    `${user.email}`,
+    "Account Approved",
+    `Dear Esteemed Vendor, your account has been approved, and these are you login credentials, Email: ${user.email} and password: ${password}. Once you Logged in you can add your restaurant details and add dishes to your restuarant, you welcome onboard. Thanks, Triluxy.`
+  );
+  res.status(201).send({ message: "User Status Changed Successfully" });
+});
 const GetAllRestaurantAdmins = asyncHandler(async (req, res) => {
   const admins = await User.find({
     userRole: "resAdmin",
@@ -51,4 +77,5 @@ module.exports = {
   GetAllReservations,
   GetAllDishOrders,
   GetAllMenuItems,
+  onApproveResAdmin,
 };

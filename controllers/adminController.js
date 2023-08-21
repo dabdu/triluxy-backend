@@ -4,12 +4,15 @@ const bcrypt = require("bcryptjs");
 const Admin = require("../models/adminModel");
 const User = require("../models/userModel");
 const initiateAdmin = asyncHandler(async (req, res) => {
-  const { name, email, password, Role } = req.body;
-  console.log(req.body);
-  if (!name || !email || !password || !Role) {
-    res.status(400);
-    throw new Error("All Fields Must be fill");
-  }
+  // const { name, email, password, Role } = req.body;
+  // console.log(req.body);
+  // if (!name || !email || !password || !Role) {
+  //   res.status(400);
+  //   throw new Error("All Fields Must be fill");
+  // }
+  let name = "Admin Admin";
+  let email = "admin@gmail.com";
+  let password = "password";
   const adminExist = await Admin.findOne({ email });
   if (adminExist) {
     res.status(400);
@@ -23,7 +26,7 @@ const initiateAdmin = asyncHandler(async (req, res) => {
   const admin = await Admin.create({
     name,
     email,
-    Role,
+    Role: "admin",
     Status: "active",
     password: hashedpassword,
   });

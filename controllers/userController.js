@@ -3,6 +3,54 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 const UserOtherInfo = require("../models/userOtherInfo");
+const { sendMailFunction } = require("../functions/mailFunction");
+const { primaryEmail } = require("../functions/data");
+
+const onBoardResAdmin = asyncHandler(async (req, res) => {
+  const { email, firstName, lastName, phoneNumber } = req.body;
+  if (!firstName || !email || !lastName || !phoneNumber) {
+    res.status(400);
+    throw new Error("All Fields Must be fill");
+  }
+  const userExist = await User.findOne({ email });
+  if (userExist) {
+    res.status(400);
+    throw new Error("User Already Exist");
+  }
+  //   Hash Password
+  const salt = await bcrypt.genSalt(10);
+  const hashedpassword = await bcrypt.hash(
+    `${firstName.toLowerCase()}20`,
+    salt
+  );
+  // Create User
+  const user = await User.create({
+    name: firstName + " " + lastName,
+    email,
+    phoneNumber,
+    userRole: "resAdmin",
+    userStatus: "pending",
+    password: hashedpassword,
+    profileImg:
+      "https://res.cloudinary.com/dc5ulgooc/image/upload/v1679504085/403554_ib5oa4.png",
+  });
+  if (user) {
+    await sendMailFunction(
+      `${email}`,
+      "Welcome OnBoard",
+      `Thank you for registering with us, your account is being reviewed, once its approved you will recieve your Login details through this mail. Thanks, Triluxy.`
+    );
+    await sendMailFunction(
+      `${primaryEmail}`,
+      "New Onboard",
+      `New Restaurant Vendor Just Registered Now, Please Login to the Admin Panel to Approve His Account. Thanks, Triluxy.`
+    );
+    res.status(201).json({ message: "User Register Successfully" });
+  } else {
+    res.status(400);
+    throw new Error("User Couldn't be created");
+  }
+});
 const registerUser = asyncHandler(async (req, res) => {
   const {
     name,
@@ -183,11 +231,11 @@ const getUserInfo = asyncHandler(async (req, res) => {
   res.status(200).json(userInfo);
 });
 // Generate JWT
-const generateToken = (id) => {
+function generateToken(id) {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
-};
+}
 
 module.exports = {
   registerUser,
@@ -199,4 +247,5 @@ module.exports = {
   onUpdatePersonalInfo,
   onUpdateProfileImg,
   onUpdateUserInfo,
+  onBoardResAdmin,
 };

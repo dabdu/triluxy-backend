@@ -7,6 +7,7 @@ const {
   GetAllReservations,
   GetAllDishOrders,
   GetAllMenuItems,
+  onApproveResAdmin,
 } = require("../controllers/admin/restaurantController");
 const router = express.Router();
 
@@ -14,6 +15,7 @@ router.post("/initiate", initiateAdmin);
 router.post("/login", adminLogin);
 
 // Restraurant Routes
+router.put("/restaurant/approve-admin", onApproveResAdmin);
 router.get("/res-admin", adminProtect, GetAllRestaurantAdmins);
 router.get("/restaurants", adminProtect, GetAllRestaurants);
 router.get("/dishes", adminProtect, GetAllMenuItems);

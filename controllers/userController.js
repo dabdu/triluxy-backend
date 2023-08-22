@@ -116,20 +116,25 @@ const loginUser = asyncHandler(async (req, res) => {
   //   User Check
   const user = await User.findOne({ email });
 
-  if (user && (await bcrypt.compare(password, user.password))) {
-    res.json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-      profileImg: user.profileImg,
-      userRole: user.userRole,
-      userStatus: user.userStatus,
-      token: generateToken(user._id),
-    });
-  } else {
+  if (user?.userStatus === "pending") {
     res.status(400);
-    throw new Error("Invalid Email or Password");
+    throw new Error("User Account Not Active");
+  } else {
+    if (user && (await bcrypt.compare(password, user.password))) {
+      res.json({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        profileImg: user.profileImg,
+        userRole: user.userRole,
+        userStatus: user.userStatus,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid Email or Password");
+    }
   }
 });
 

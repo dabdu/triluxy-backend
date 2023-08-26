@@ -6,6 +6,7 @@ const ResMenuOrder = require("../../models/resMenuOrder");
 const ResMenuItem = require("../../models/resMenuItemModel");
 const { primaryEmail } = require("../../functions/data");
 const { sendMailFunction } = require("../../functions/mailFunction");
+
 const onApproveResAdmin = asyncHandler(async (req, res) => {
   const { userID } = req.body;
 
@@ -44,15 +45,6 @@ const GetAllRestaurants = asyncHandler(async (req, res) => {
   });
   res.status(200).json(restaurants);
 });
-const GetAllReservations = asyncHandler(async (req, res) => {
-  const reservations = await ResReservation.find()
-    .sort({
-      createdAt: -1,
-    })
-    .populate("userId")
-    .populate("restaurantId");
-  res.status(200).json(reservations);
-});
 const GetAllDishOrders = asyncHandler(async (req, res) => {
   const reservations = await ResMenuOrder.find()
     .sort({
@@ -71,6 +63,32 @@ const GetAllMenuItems = asyncHandler(async (req, res) => {
   res.status(200).json(reservations);
 });
 
+{
+  /*
+RESERVATIONS FUCTIONS STARTS HERE
+*/
+}
+const GetAllReservations = asyncHandler(async (req, res) => {
+  const reservations = await ResReservation.find()
+    .sort({
+      createdAt: -1,
+    })
+    .populate("userId")
+    .populate("restaurantId");
+  res.status(200).json(reservations);
+});
+const GetSingleReservation = asyncHandler(async (req, res) => {
+  const reservation = await ResReservation.findById(req.params.id)
+    .populate("userId")
+    .populate("restaurantId");
+  res.status(200).json(reservation);
+});
+{
+  /*
+RESERVATIONS FUCTIONS ENDS HERE
+*/
+}
+
 module.exports = {
   GetAllRestaurantAdmins,
   GetAllRestaurants,
@@ -78,4 +96,5 @@ module.exports = {
   GetAllDishOrders,
   GetAllMenuItems,
   onApproveResAdmin,
+  GetSingleReservation,
 };

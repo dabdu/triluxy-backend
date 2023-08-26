@@ -31,6 +31,30 @@ const onApproveResAdmin = asyncHandler(async (req, res) => {
   );
   res.status(201).send({ message: "User Status Changed Successfully" });
 });
+// const onDeactivateResAdmin = asyncHandler(async (req, res) => {
+//   const { userID } = req.body;
+
+//   if (!userID) {
+//     res.status(400);
+//     throw new Error("Inavlid User");
+//   }
+//   const user = await User.findByIdAndUpdate(
+//     userID,
+//     { userStatus: "active" },
+//     {
+//       new: true,
+//     }
+//   );
+//   // send Login credential to USer primaryEmail
+//   const splited = user?.name?.split(" ");
+//   const password = splited[0].toLowerCase() + "20";
+//   await sendMailFunction(
+//     `${user.email}`,
+//     "Account Approved",
+//     `Dear Esteemed Vendor, your account has been approved, and these are you login credentials, Email: ${user.email} and password: ${password}. Once you Logged in you can add your restaurant details and add dishes to your restuarant, you welcome onboard. Thanks, Triluxy.`
+//   );
+//   res.status(201).send({ message: "User Status Changed Successfully" });
+// });
 const GetAllRestaurantAdmins = asyncHandler(async (req, res) => {
   const admins = await User.find({
     userRole: "resAdmin",
@@ -45,6 +69,20 @@ const GetAllRestaurants = asyncHandler(async (req, res) => {
   });
   res.status(200).json(restaurants);
 });
+
+const GetAllMenuItems = asyncHandler(async (req, res) => {
+  const reservations = await ResMenuItem.find()
+    .sort({
+      createdAt: -1,
+    })
+    .populate("restaurantId");
+  res.status(200).json(reservations);
+});
+{
+  /*
+DISH ORDERS  FUCTIONS STARTS HERE
+*/
+}
 const GetAllDishOrders = asyncHandler(async (req, res) => {
   const reservations = await ResMenuOrder.find()
     .sort({
@@ -54,15 +92,17 @@ const GetAllDishOrders = asyncHandler(async (req, res) => {
     .populate("restaurantId");
   res.status(200).json(reservations);
 });
-const GetAllMenuItems = asyncHandler(async (req, res) => {
-  const reservations = await ResMenuItem.find()
-    .sort({
-      createdAt: -1,
-    })
+const GetSingleOrder = asyncHandler(async (req, res) => {
+  const order = await ResMenuOrder.findById(req.params.id)
+    .populate("userId")
     .populate("restaurantId");
-  res.status(200).json(reservations);
+  res.status(200).json(order);
 });
-
+{
+  /*
+DISH ORDERS  FUCTIONS STARTS HERE
+*/
+}
 {
   /*
 RESERVATIONS FUCTIONS STARTS HERE
@@ -97,4 +137,5 @@ module.exports = {
   GetAllMenuItems,
   onApproveResAdmin,
   GetSingleReservation,
+  GetSingleOrder,
 };

@@ -9,6 +9,7 @@ const {
   GetAllMenuItems,
   onApproveResAdmin,
   GetSingleReservation,
+  GetSingleOrder,
 } = require("../controllers/admin/restaurantController");
 const router = express.Router();
 
@@ -23,5 +24,6 @@ router.get("/dishes", adminProtect, GetAllMenuItems);
 router.get("/reservations", adminProtect, GetAllReservations);
 router.get("/reservation/:id", adminProtect, GetSingleReservation);
 router.get("/dish-orders", adminProtect, GetAllDishOrders);
+router.get("/order/:id", adminProtect, GetSingleOrder);
 
 module.exports = router;

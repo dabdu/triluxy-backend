@@ -12,13 +12,14 @@ const app = express();
 // Middlewares
 app.use(
   cors({
-    origin: ["https://tribackoffice.vercel.app"],
+    origin: ["https://tribackoffice.vercel.app", "http://localhost:3000"],
     credentials: true,
   })
 );
 // Middleware to set up CORS headers
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "https://tribackoffice.vercel.app");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // Add this line
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
